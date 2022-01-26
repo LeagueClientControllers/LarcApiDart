@@ -1,11 +1,19 @@
 import 'package:lcc_api_dart/src/core/categories/identity_category.dart';
-import 'package:lcc_api_dart/src/security/i_user_credentials_storage.dart';
+import 'package:lcc_api_dart/src/core/categories/long_poll_category.dart';
+import 'package:lcc_api_dart/src/security/user_credentials_storage.dart';
 import 'package:lcc_api_dart/src/utils/base_json_serializable.dart';
 import 'package:lcc_api_dart/src/utils/base_response_serializable.dart';
 
 /// Abstraction of the head API class.
 abstract class ILccApi {
-  abstract IdentityCategory identity;
+  /// Category that contains methods that works with authorization, token, user data etc.
+  IdentityCategory get identity;
+
+  /// Category that contains methods that works with event system.
+  LongPollCategory get longPoll;
+
+  /// Is the credentials exists and they are valid to authorize user in the api.
+  bool get userAuthorized;
 
   /// Initializes API module with [credentialsStorage].
   /// If some access token was stored in the [credentialsStorage],

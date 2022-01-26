@@ -1,6 +1,7 @@
 name: lcc_api_dart
 description: A starting point for Dart libraries or applications.
 version: 1.0.0
+publish_to: 'none'
 # homepage: https://www.example.com
 
 environment:
@@ -10,8 +11,6 @@ environment:
 dependencies:
   json_annotation: ^4.3.0
   dart_jsonwebtoken: ^2.4.0
-  jose: ^0.3.2
-  jaguar_jwt: ^3.0.0
   http: ^0.13.4
 #   path: ^1.8.0
 

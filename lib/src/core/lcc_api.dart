@@ -4,9 +4,8 @@ import 'dart:convert';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:jaguar_jwt/jaguar_jwt.dart';
-import 'package:jose/jose.dart';
 import 'package:lcc_api_dart/src/core/categories/identity_category.dart';
+import 'package:lcc_api_dart/src/core/categories/long_poll_category.dart';
 import 'package:lcc_api_dart/src/exceptions/api_method_exception.dart';
 import 'package:lcc_api_dart/src/exceptions/user_not_authorized_exception.dart';
 import 'package:lcc_api_dart/src/exceptions/wrong_access_token_exception.dart';
@@ -19,7 +18,7 @@ import 'package:lcc_api_dart/src/security/api_credentials.dart';
 import 'package:lcc_api_dart/src/utils/base_response_serializable.dart';
 
 import 'i_lcc_api.dart';
-import '../security/i_user_credentials_storage.dart';
+import '../security/user_credentials_storage.dart';
 import '../utils/base_json_serializable.dart';
 
 class LccApi implements ILccApi {
@@ -34,12 +33,21 @@ class LccApi implements ILccApi {
   JwtPayload? _accessTokenPayload;
 
   late IUserCredentialsStorage _credentialsStorage;
+  late IdentityCategory _identityCategory;
+  late LongPollCategory _longPollCategory;
 
   @override
-  late IdentityCategory identity;
+  IdentityCategory get identity => _identityCategory;
+
+  @override
+  LongPollCategory get longPoll => _longPollCategory;
+
+  @override
+  bool get userAuthorized => _accessToken != null;
 
   LccApi() {
-    identity = IdentityCategory(this);
+    _identityCategory = IdentityCategory(this);
+    _longPollCategory = LongPollCategory(this);
   }
 
   @override

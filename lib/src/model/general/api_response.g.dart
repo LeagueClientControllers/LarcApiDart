@@ -31,4 +31,5 @@ const _$MethodErrorEnumMap = {
   MethodError.jsonParsingError: 'JsonParsingError',
   MethodError.missingMethodParameters: 'MissingMethodParametersError',
   MethodError.invalidMethodParameter: 'InvalidMethodParameterError',
+  MethodError.methodNotFound: 'MethodNotFoundError',
 };

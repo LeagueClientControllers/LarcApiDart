@@ -2,7 +2,7 @@ import 'package:lcc_api_dart/src/core/i_lcc_api.dart';
 import 'package:lcc_api_dart/src/core/lcc_api.dart';
 import 'package:lcc_api_dart/src/model/device/device_type.dart';
 import 'package:lcc_api_dart/src/model/identity/methods/login_parameters.dart';
-import 'package:lcc_api_dart/src/security/i_user_credentials_storage.dart';
+import 'package:lcc_api_dart/src/security/user_credentials_storage.dart';
 
 class MockStorage implements IUserCredentialsStorage {
   String? _token;
@@ -36,8 +36,5 @@ Future _main() async {
       .login(LoginParameters("Rayms", "12345", "ApiTestDevice", DeviceType.phone), saveCredentials: true);
 
   print(await storage.retrieveAccessToken());
-
-  api = LccApi();
-  await api.init(storage);
-  print(await api.identity.refreshAccessToken());
+  print((await api.longPoll.getEvents(-1, timeout: 30)).events.clientEvents[0].changes);
 }
