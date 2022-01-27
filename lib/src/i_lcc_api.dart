@@ -1,6 +1,7 @@
-import 'package:lcc_api_dart/src/core/categories/identity_category.dart';
-import 'package:lcc_api_dart/src/core/categories/long_poll_category.dart';
+import 'package:lcc_api_dart/src/categories/identity_category.dart';
+import 'package:lcc_api_dart/src/categories/long_poll_category.dart';
 import 'package:lcc_api_dart/src/security/user_credentials_storage.dart';
+import 'package:lcc_api_dart/src/services/event_service.dart';
 import 'package:lcc_api_dart/src/utils/base_json_serializable.dart';
 import 'package:lcc_api_dart/src/utils/base_response_serializable.dart';
 
@@ -11,6 +12,9 @@ abstract class ILccApi {
 
   /// Category that contains methods that works with event system.
   LongPollCategory get longPoll;
+
+  /// Service to simplify work with user events.
+  EventService get events;
 
   /// Is the credentials exists and they are valid to authorize user in the api.
   bool get userAuthorized;

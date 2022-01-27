@@ -1,5 +1,5 @@
-import 'package:lcc_api_dart/src/core/i_lcc_api.dart';
 import 'package:lcc_api_dart/src/exceptions/api_method_exception.dart';
+import 'package:lcc_api_dart/src/i_lcc_api.dart';
 import 'package:lcc_api_dart/src/model/general/method_error.dart';
 import 'package:lcc_api_dart/src/model/identity/methods/login_parameters.dart';
 

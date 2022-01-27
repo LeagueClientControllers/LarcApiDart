@@ -14,7 +14,7 @@ class ClientEvent extends BaseJsonSerializable<ClientEvent> {
   late int controllerId;
 
   /// Changes that make this event occur.
-  Map<String, Object>? changes;
+  Map<String, Object?>? changes;
 
   @override
   ClientEvent fromJson(Map<String, dynamic> json) => _$ClientEventFromJson(json);

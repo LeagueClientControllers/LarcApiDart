@@ -9,9 +9,7 @@ part of 'client_event.dart';
 ClientEvent _$ClientEventFromJson(Map<String, dynamic> json) => ClientEvent()
   ..type = $enumDecode(_$ClientEventTypeEnumMap, json['type'])
   ..controllerId = json['controllerId'] as int
-  ..changes = (json['changes'] as Map<String, dynamic>?)?.map(
-    (k, e) => MapEntry(k, e as Object),
-  );
+  ..changes = json['changes'] as Map<String, dynamic>?;
 
 Map<String, dynamic> _$ClientEventToJson(ClientEvent instance) =>
     <String, dynamic>{

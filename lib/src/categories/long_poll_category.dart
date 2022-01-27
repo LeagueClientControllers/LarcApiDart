@@ -1,4 +1,4 @@
-import 'package:lcc_api_dart/src/core/i_lcc_api.dart';
+import 'package:lcc_api_dart/src/i_lcc_api.dart';
 import 'package:lcc_api_dart/src/model/long_poll/long_poll_events_response.dart';
 import 'package:lcc_api_dart/src/model/long_poll/long_poll_parameters.dart';
 

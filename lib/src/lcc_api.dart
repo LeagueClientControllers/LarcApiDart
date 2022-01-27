@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:lcc_api_dart/src/core/categories/identity_category.dart';
-import 'package:lcc_api_dart/src/core/categories/long_poll_category.dart';
+import 'package:lcc_api_dart/src/categories/identity_category.dart';
+import 'package:lcc_api_dart/src/categories/long_poll_category.dart';
 import 'package:lcc_api_dart/src/exceptions/api_method_exception.dart';
 import 'package:lcc_api_dart/src/exceptions/user_not_authorized_exception.dart';
 import 'package:lcc_api_dart/src/exceptions/wrong_access_token_exception.dart';
@@ -15,11 +15,12 @@ import 'package:lcc_api_dart/src/model/general/execution_result.dart';
 import 'package:lcc_api_dart/src/model/general/jwt_payload.dart';
 import 'package:lcc_api_dart/src/model/general/method_error.dart';
 import 'package:lcc_api_dart/src/security/api_credentials.dart';
+import 'package:lcc_api_dart/src/security/user_credentials_storage.dart';
+import 'package:lcc_api_dart/src/services/event_service.dart';
+import 'package:lcc_api_dart/src/utils/base_json_serializable.dart';
 import 'package:lcc_api_dart/src/utils/base_response_serializable.dart';
 
 import 'i_lcc_api.dart';
-import '../security/user_credentials_storage.dart';
-import '../utils/base_json_serializable.dart';
 
 class LccApi implements ILccApi {
   static const String _apiHost = "150.230.151.8:56067";
@@ -35,6 +36,7 @@ class LccApi implements ILccApi {
   late IUserCredentialsStorage _credentialsStorage;
   late IdentityCategory _identityCategory;
   late LongPollCategory _longPollCategory;
+  late EventService _events;
 
   @override
   IdentityCategory get identity => _identityCategory;
@@ -43,11 +45,15 @@ class LccApi implements ILccApi {
   LongPollCategory get longPoll => _longPollCategory;
 
   @override
+  EventService get events => _events;
+
+  @override
   bool get userAuthorized => _accessToken != null;
 
   LccApi() {
     _identityCategory = IdentityCategory(this);
     _longPollCategory = LongPollCategory(this);
+    _events = EventService(this);
   }
 
   @override
