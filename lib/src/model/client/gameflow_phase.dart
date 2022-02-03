@@ -1,23 +1,61 @@
+import 'package:json_annotation/json_annotation.dart';
+
 /// Indicates phase of the game flow in league client.
-enum GameflowPhase {
-  /// User wandering around client.
-  none,
+enum GameflowPhase
+{
+	/// User wandering around client.
+	@JsonValue("None")
+	none,
 
-  /// User in the lobby.
-  lobby,
+	/// User in the lobby.
+	@JsonValue("Lobby")
+	lobby,
 
-  /// Matchmaking in progress.
-  matchmaking,
+	/// Matchmaking in progress.
+	@JsonValue("Matchmaking")
+	matchmaking,
 
-  /// User should accept or decline match.
-  readyCheck,
+	/// 
+	@JsonValue("CheckedIntoTournament")
+	checkedIntoTournament,
 
-  /// User selecting and/or banning champions.
-  champSelect,
+	/// User should accept or decline match.
+	@JsonValue("ReadyCheck")
+	readyCheck,
 
-  /// Game in progress.
-  inProgress,
+	/// User selecting and/or banning champions.
+	@JsonValue("ChampSelect")
+	champSelect,
 
-  /// When game is ended but user has not returned to the lobby yet.
-  preEndOfGame
+	/// 
+	@JsonValue("GameStart")
+	gameStart,
+
+	/// 
+	@JsonValue("FailedToLaunch")
+	failedToLaunch,
+
+	/// Game in progress.
+	@JsonValue("InProgress")
+	inProgress,
+
+	/// 
+	@JsonValue("Reconnect")
+	reconnect,
+
+	/// Waiting for post game stats.
+	@JsonValue("WaitingForStats")
+	waitingForStats,
+
+	/// When game is ended but user has not returned to the lobby yet.
+	@JsonValue("PreEndOfGame")
+	preEndOfGame,
+
+	/// Game is ended.
+	@JsonValue("EndOfGame")
+	endOfGame,
+
+	/// 
+	@JsonValue("TerminatedInError ")
+	terminatedInError,
 }

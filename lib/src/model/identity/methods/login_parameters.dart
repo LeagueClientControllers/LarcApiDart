@@ -1,30 +1,34 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:lcc_api_dart/src/model/device/device_type.dart';
 import 'package:lcc_api_dart/src/utils/base_json_serializable.dart';
+import 'package:lcc_api_dart/src/model/device/device_type.dart';
 
 part 'login_parameters.g.dart';
 
-/// Parameters of the /identity/login API method.
+/// Parameters of the /identity/login method
 @JsonSerializable()
-class LoginParameters extends BaseJsonSerializable<LoginParameters> {
-  /// Type of the current device.
-  final DeviceType deviceType;
+class LoginParameters implements BaseJsonSerializable<LoginParameters>
+{
+	/// Type of the current device
+	@JsonKey(name: "deviceType")
+	late DeviceType deviceType;
 
-  /// Name of the current device.
-  final String deviceName;
+	/// Name of the current device
+	@JsonKey(name: "deviceName")
+	late String deviceName;
 
-  /// Nickname or email of the user.
-  final String login;
+	/// Nickname or email
+	@JsonKey(name: "login")
+	late String login;
 
-  /// User's password.
-  final String password;
+	/// Password
+	@JsonKey(name: "password")
+	late String password;
 
-  /// Creates parameters for the /identity/login method
-  LoginParameters(this.login, this.password, this.deviceName, this.deviceType);
+	LoginParameters(this.login, this.password, this.deviceType, this.deviceName): super();
 
-  @override
-  LoginParameters fromJson(Map<String, dynamic> json) => _$LoginParametersFromJson(json);
+	@override
+	factory LoginParameters.fromJson(Map<String, dynamic> json) => _$LoginParametersFromJson(json);
 
-  @override
-  Map<String, dynamic> toJson() => _$LoginParametersToJson(this);
+	@override
+	Map<String, dynamic> toJson() => _$LoginParametersToJson(this);
 }

@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:lcc_api_dart/src/categories/device_category.dart';
 import 'package:lcc_api_dart/src/categories/identity_category.dart';
 import 'package:lcc_api_dart/src/categories/long_poll_category.dart';
 import 'package:lcc_api_dart/src/exceptions/api_method_exception.dart';
@@ -15,10 +16,9 @@ import 'package:lcc_api_dart/src/model/general/execution_result.dart';
 import 'package:lcc_api_dart/src/model/general/jwt_payload.dart';
 import 'package:lcc_api_dart/src/model/general/method_error.dart';
 import 'package:lcc_api_dart/src/security/api_credentials.dart';
-import 'package:lcc_api_dart/src/security/user_credentials_storage.dart';
+import 'package:lcc_api_dart/src/security/i_user_credentials_storage.dart';
 import 'package:lcc_api_dart/src/services/event_service.dart';
 import 'package:lcc_api_dart/src/utils/base_json_serializable.dart';
-import 'package:lcc_api_dart/src/utils/base_response_serializable.dart';
 
 import 'i_lcc_api.dart';
 
@@ -36,10 +36,14 @@ class LccApi implements ILccApi {
   late IUserCredentialsStorage _credentialsStorage;
   late IdentityCategory _identityCategory;
   late LongPollCategory _longPollCategory;
+  late DeviceCategory _deviceCategory;
   late EventService _events;
 
   @override
   IdentityCategory get identity => _identityCategory;
+
+  @override
+  DeviceCategory get device => _deviceCategory;
 
   @override
   LongPollCategory get longPoll => _longPollCategory;
@@ -52,6 +56,7 @@ class LccApi implements ILccApi {
 
   LccApi() {
     _identityCategory = IdentityCategory(this);
+    _deviceCategory = DeviceCategory(this);
     _longPollCategory = LongPollCategory(this);
     _events = EventService(this);
   }
@@ -81,7 +86,7 @@ class LccApi implements ILccApi {
   Future updateAccessToken(String accessToken, {bool store = false}) async {
     try {
       JWT jwt = JWT.verify(accessToken, SecretKey(ApiCredentials.jwtSecret), checkExpiresIn: true);
-      _accessTokenPayload = JwtPayload().fromJson(jwt.payload);
+      _accessTokenPayload = JwtPayload.fromJson(jwt.payload);
       _accessToken = accessToken;
     } on JWTError {
       throw WrongAccessTokenException();
@@ -95,49 +100,60 @@ class LccApi implements ILccApi {
   @override
   Future execute(String methodPath, {bool withAccessToken = true}) async {
     String response = await _executeBaseNoPayload(methodPath, withAccessToken);
-    ApiResponse responseObject = ApiResponse().fromJson(jsonDecode(response));
+    ApiResponse responseObject = ApiResponse.fromJson(jsonDecode(response));
     if (responseObject.result == ExecutionResult.error) {
-      if (responseObject.error == null || responseObject.errorMessage == null) {
+      if (responseObject.errorName == null || responseObject.errorMessage == null) {
         throw WrongResponseException(methodPath);
       }
 
-      throw ApiMethodException(methodPath, responseObject.error!, responseObject.errorMessage!);
+      throw ApiMethodException(methodPath, responseObject.errorName!, responseObject.errorMessage!);
     }
   }
 
   @override
-  Future<TResponse> executeCResponseCParameters<TResponse extends BaseResponseSerializable<TResponse>,
+  Future<TResponse> executeCResponseCParameters<TResponse extends ApiResponse,
           TParameters extends BaseJsonSerializable<TParameters>>(
-      String methodPath, TParameters params, TResponse Function() responseCreator,
+      String methodPath, TParameters params, TResponse Function(Map<String, dynamic> json) responseFactory,
       {bool withAccessToken = true}) async {
     String response = await _executeBase(methodPath, jsonEncode(params.toJson()), withAccessToken);
-    TResponse responseObject = responseCreator().fromJson(jsonDecode(response));
-    if (responseObject.result == ExecutionResult.error) {
-      if (responseObject.error == null || responseObject.errorMessage == null) {
+    Map<String, dynamic> decodedJson = jsonDecode(response);
+
+    try {
+      TResponse responseObject = responseFactory(decodedJson);
+      if (responseObject.result == ExecutionResult.error) {
+        throw ApiMethodException(methodPath, responseObject.errorName!, responseObject.errorMessage!);
+      }
+
+      return responseObject;
+    } on TypeError {
+      ApiResponse response = ApiResponse.fromJson(decodedJson);
+      if (response.result != ExecutionResult.error) {
         throw WrongResponseException(methodPath);
       }
 
-      throw ApiMethodException(methodPath, responseObject.error!, responseObject.errorMessage!);
-    }
+      if (response.errorName == null || response.errorMessage == null) {
+        throw WrongResponseException(methodPath);
+      }
 
-    return responseObject;
+      throw ApiMethodException(methodPath, response.errorName!, response.errorMessage!);
+    }
   }
 
   @override
-  Future<TResponse> executeSResponseCParameters<TResponse extends Object,
+  Future<TResponse> executeSResponseCParameters<TResponse extends Object?,
           TParameters extends BaseJsonSerializable<TParameters>>(
       String methodPath, TParameters params, String responseObjectKey,
       {bool withAccessToken = true}) async {
     String response = await _executeBase(methodPath, jsonEncode(params.toJson()), withAccessToken);
 
     LinkedHashMap<String, dynamic> json = jsonDecode(response);
-    ApiResponse responseObject = ApiResponse().fromJson(json);
+    ApiResponse responseObject = ApiResponse.fromJson(json);
     if (responseObject.result == ExecutionResult.error) {
-      if (responseObject.error == null || responseObject.errorMessage == null) {
+      if (responseObject.errorName == null || responseObject.errorMessage == null) {
         throw WrongResponseException(methodPath);
       }
 
-      throw ApiMethodException(methodPath, responseObject.error!, responseObject.errorMessage!);
+      throw ApiMethodException(methodPath, responseObject.errorName!, responseObject.errorMessage!);
     }
 
     if (!json.containsKey(responseObjectKey)) {
@@ -153,37 +169,50 @@ class LccApi implements ILccApi {
   }
 
   @override
-  Future<TResponse> executeCResponseSParameters<TResponse extends BaseResponseSerializable<TResponse>,
-          TParameter extends Object>(
-      String methodPath, String paramKey, TParameter param, TResponse Function() responseCreator,
+  Future<TResponse> executeCResponseSParameters<TResponse extends ApiResponse, TParameter extends Object?>(
+      String methodPath,
+      String paramKey,
+      TParameter param,
+      TResponse Function(Map<String, dynamic> json) responseFactory,
       {bool withAccessToken = true}) async {
     String response = await _executeBase(methodPath, "{\"$paramKey\":\"$param\"}", withAccessToken);
-    TResponse responseObject = responseCreator().fromJson(jsonDecode(response));
-    if (responseObject.result == ExecutionResult.error) {
-      if (responseObject.error == null || responseObject.errorMessage == null) {
+    Map<String, dynamic> decodedJson = jsonDecode(response);
+
+    try {
+      TResponse responseObject = responseFactory(decodedJson);
+      if (responseObject.result == ExecutionResult.error) {
+        throw ApiMethodException(methodPath, responseObject.errorName!, responseObject.errorMessage!);
+      }
+
+      return responseObject;
+    } on TypeError {
+      ApiResponse response = ApiResponse.fromJson(decodedJson);
+      if (response.result != ExecutionResult.error) {
         throw WrongResponseException(methodPath);
       }
 
-      throw ApiMethodException(methodPath, responseObject.error!, responseObject.errorMessage!);
-    }
+      if (response.errorName == null || response.errorMessage == null) {
+        throw WrongResponseException(methodPath);
+      }
 
-    return responseObject;
+      throw ApiMethodException(methodPath, response.errorName!, response.errorMessage!);
+    }
   }
 
   @override
-  Future<TResponse> executeSResponseSParameters<TResponse extends Object, TParameter extends Object>(
+  Future<TResponse> executeSResponseSParameters<TResponse extends Object?, TParameter extends Object?>(
       String methodPath, String paramKey, TParameter param, String responseObjectKey,
       {withAccessToken = true}) async {
     String response = await _executeBase(methodPath, "{\"$paramKey\":\"$param\"}", withAccessToken);
 
     LinkedHashMap<String, dynamic> json = jsonDecode(response);
-    ApiResponse responseObject = ApiResponse().fromJson(json);
+    ApiResponse responseObject = ApiResponse.fromJson(json);
     if (responseObject.result == ExecutionResult.error) {
-      if (responseObject.error == null || responseObject.errorMessage == null) {
+      if (responseObject.errorName == null || responseObject.errorMessage == null) {
         throw WrongResponseException(methodPath);
       }
 
-      throw ApiMethodException(methodPath, responseObject.error!, responseObject.errorMessage!);
+      throw ApiMethodException(methodPath, responseObject.errorName!, responseObject.errorMessage!);
     }
 
     if (!json.containsKey(responseObjectKey)) {
@@ -199,35 +228,46 @@ class LccApi implements ILccApi {
   }
 
   @override
-  Future<TResponse> executeCResponse<TResponse extends BaseResponseSerializable<TResponse>>(
-      String methodPath, TResponse Function() responseCreator,
+  Future<TResponse> executeCResponse<TResponse extends ApiResponse>(
+      String methodPath, TResponse Function(Map<String, dynamic> json) responseFactory,
       {bool withAccessToken = true}) async {
     String response = await _executeBaseNoPayload(methodPath, withAccessToken);
-    TResponse responseObject = responseCreator().fromJson(jsonDecode(response));
-    if (responseObject.result == ExecutionResult.error) {
-      if (responseObject.error == null || responseObject.errorMessage == null) {
+    Map<String, dynamic> decodedJson = jsonDecode(response);
+
+    try {
+      TResponse responseObject = responseFactory(decodedJson);
+      if (responseObject.result == ExecutionResult.error) {
+        throw ApiMethodException(methodPath, responseObject.errorName!, responseObject.errorMessage!);
+      }
+
+      return responseObject;
+    } on TypeError {
+      ApiResponse response = ApiResponse.fromJson(decodedJson);
+      if (response.result != ExecutionResult.error) {
         throw WrongResponseException(methodPath);
       }
 
-      throw ApiMethodException(methodPath, responseObject.error!, responseObject.errorMessage!);
-    }
+      if (response.errorName == null || response.errorMessage == null) {
+        throw WrongResponseException(methodPath);
+      }
 
-    return responseObject;
+      throw ApiMethodException(methodPath, response.errorName!, response.errorMessage!);
+    }
   }
 
   @override
-  Future<TResponse> executeSResponse<TResponse extends Object>(String methodPath, String responseObjectKey,
+  Future<TResponse> executeSResponse<TResponse extends Object?>(String methodPath, String responseObjectKey,
       {bool withAccessToken = true}) async {
     String response = await _executeBaseNoPayload(methodPath, withAccessToken);
 
     LinkedHashMap<String, dynamic> json = jsonDecode(response);
-    ApiResponse responseObject = ApiResponse().fromJson(json);
+    ApiResponse responseObject = ApiResponse.fromJson(json);
     if (responseObject.result == ExecutionResult.error) {
-      if (responseObject.error == null || responseObject.errorMessage == null) {
+      if (responseObject.errorName == null || responseObject.errorMessage == null) {
         throw WrongResponseException(methodPath);
       }
 
-      throw ApiMethodException(methodPath, responseObject.error!, responseObject.errorMessage!);
+      throw ApiMethodException(methodPath, responseObject.errorName!, responseObject.errorMessage!);
     }
 
     if (!json.containsKey(responseObjectKey)) {
@@ -247,27 +287,27 @@ class LccApi implements ILccApi {
       String methodPath, TParameters params,
       {bool withAccessToken = true}) async {
     String response = await _executeBase(methodPath, jsonEncode(params.toJson()), withAccessToken);
-    ApiResponse responseObject = ApiResponse().fromJson(jsonDecode(response));
+    ApiResponse responseObject = ApiResponse.fromJson(jsonDecode(response));
     if (responseObject.result == ExecutionResult.error) {
-      if (responseObject.error == null || responseObject.errorMessage == null) {
+      if (responseObject.errorName == null || responseObject.errorMessage == null) {
         throw WrongResponseException(methodPath);
       }
 
-      throw ApiMethodException(methodPath, responseObject.error!, responseObject.errorMessage!);
+      throw ApiMethodException(methodPath, responseObject.errorName!, responseObject.errorMessage!);
     }
   }
 
   @override
-  Future executeSParameters<TParameter extends Object>(String methodPath, String paramKey, TParameter param,
+  Future executeSParameters<TParameter extends Object?>(String methodPath, String paramKey, TParameter param,
       {bool withAccessToken = true}) async {
     String response = await _executeBase(methodPath, "{\"$paramKey\":\"$param\"}", withAccessToken);
-    ApiResponse responseObject = ApiResponse().fromJson(jsonDecode(response));
+    ApiResponse responseObject = ApiResponse.fromJson(jsonDecode(response));
     if (responseObject.result == ExecutionResult.error) {
-      if (responseObject.error == null || responseObject.errorMessage == null) {
+      if (responseObject.errorName == null || responseObject.errorMessage == null) {
         throw WrongResponseException(methodPath);
       }
 
-      throw ApiMethodException(methodPath, responseObject.error!, responseObject.errorMessage!);
+      throw ApiMethodException(methodPath, responseObject.errorName!, responseObject.errorMessage!);
     }
   }
 

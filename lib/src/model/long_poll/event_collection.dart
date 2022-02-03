@@ -1,27 +1,32 @@
-import 'package:lcc_api_dart/src/model/long_poll/client_event.dart';
-import 'package:lcc_api_dart/src/model/long_poll/device_event.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:lcc_api_dart/src/utils/base_json_serializable.dart';
+import 'package:lcc_api_dart/src/model/long_poll/device_event.dart';
+import 'package:lcc_api_dart/src/model/long_poll/client_event.dart';
+import 'package:lcc_api_dart/src/model/long_poll/command_event.dart';
+
+part 'event_collection.g.dart';
 
 /// Collection of the events.
-class EventCollection extends BaseJsonSerializable<EventCollection> {
-  /// Events related to the devices.
-  late final List<DeviceEvent> deviceEvents;
+@JsonSerializable()
+class EventCollection implements BaseJsonSerializable<EventCollection>
+{
+	/// All of the events related to the user's devices.
+	@JsonKey(name: "deviceEvents")
+	late List<DeviceEvent> deviceEvents;
 
-  /// Events related to the league client.
-  late final List<ClientEvent> clientEvents;
+	/// All of the events related to the league client.
+	@JsonKey(name: "clientEvents")
+	late List<ClientEvent> clientEvents;
 
-  @override
-  EventCollection fromJson(Map<String, dynamic> json) => EventCollection()
-    ..deviceEvents = (json['deviceEvents'] as List<dynamic>)
-        .map((e) => DeviceEvent().fromJson(e as Map<String, dynamic>))
-        .toList()
-    ..clientEvents = (json['clientEvents'] as List<dynamic>)
-        .map((e) => ClientEvent().fromJson(e as Map<String, dynamic>))
-        .toList();
+	/// All of the events related to the command system.
+	@JsonKey(name: "commandEvents")
+	late List<CommandEvent> commandEvents;
 
-  @override
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'deviceEvents': deviceEvents,
-        'clientEvents': clientEvents,
-      };
+	EventCollection(): super();
+
+	@override
+	factory EventCollection.fromJson(Map<String, dynamic> json) => _$EventCollectionFromJson(json);
+
+	@override
+	Map<String, dynamic> toJson() => _$EventCollectionToJson(this);
 }

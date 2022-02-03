@@ -1,36 +1,42 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:lcc_api_dart/src/model/device/device_type.dart';
 import 'package:lcc_api_dart/src/utils/base_json_serializable.dart';
+import 'package:lcc_api_dart/src/model/device/device_type.dart';
 
 part 'jwt_payload.g.dart';
 
-/// Payload that is stored inside JWT access token
-/// that is given to the user to further authorization.
+/// Represents the content of jwt payload
 @JsonSerializable()
-class JwtPayload extends BaseJsonSerializable<JwtPayload> {
-  /// Id of the user who can be authorized using the token.
-  late int userId;
+class JwtPayload implements BaseJsonSerializable<JwtPayload>
+{
+	/// Id of the user that can be authorized with this token
+	@JsonKey(name: "userId")
+	late int userId;
 
-  /// Name of the user who can be authorized using the token.
-  late String username;
+	/// Name of the user that can be authorized with this token
+	@JsonKey(name: "username")
+	String? username;
 
-  /// Id of the current device.
-  late int deviceId;
+	/// Id of the current device
+	@JsonKey(name: "deviceId")
+	late int deviceId;
 
-  /// Type of the current device.
-  late DeviceType deviceType;
+	/// Type of the current device
+	@JsonKey(name: "deviceType")
+	DeviceType? deviceType;
 
-  /// Time when the token is issued.
-  @JsonKey(name: "iat")
-  late int issuedAt;
+	/// When token was issued
+	@JsonKey(name: "iat")
+	late int issuedAt;
 
-  /// Time when the token is expired.
-  @JsonKey(name: "exp")
-  late int expireAt;
+	/// When token is expired
+	@JsonKey(name: "exp")
+	late int expireAt;
 
-  @override
-  JwtPayload fromJson(Map<String, dynamic> json) => _$JwtPayloadFromJson(json);
+	JwtPayload(): super();
 
-  @override
-  Map<String, dynamic> toJson() => _$JwtPayloadToJson(this);
+	@override
+	factory JwtPayload.fromJson(Map<String, dynamic> json) => _$JwtPayloadFromJson(json);
+
+	@override
+	Map<String, dynamic> toJson() => _$JwtPayloadToJson(this);
 }

@@ -10,8 +10,8 @@ LoginParameters _$LoginParametersFromJson(Map<String, dynamic> json) =>
     LoginParameters(
       json['login'] as String,
       json['password'] as String,
-      json['deviceName'] as String,
       $enumDecode(_$DeviceTypeEnumMap, json['deviceType']),
+      json['deviceName'] as String,
     );
 
 Map<String, dynamic> _$LoginParametersToJson(LoginParameters instance) =>

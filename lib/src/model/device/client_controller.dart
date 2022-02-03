@@ -1,0 +1,30 @@
+import 'package:json_annotation/json_annotation.dart';
+import 'package:lcc_api_dart/src/utils/base_json_serializable.dart';
+
+
+part 'client_controller.g.dart';
+
+/// Describes controller - desktop application that is controlling league client.
+@JsonSerializable()
+class ClientController implements BaseJsonSerializable<ClientController>
+{
+	/// Identifier of the controller.
+	@JsonKey(name: "id")
+	late int id;
+
+	/// Name of the controller.
+	@JsonKey(name: "name")
+	late String name;
+
+	/// Whether this controller is long polling events.
+	@JsonKey(name: "isOnline")
+	late bool isOnline;
+
+	ClientController(): super();
+
+	@override
+	factory ClientController.fromJson(Map<String, dynamic> json) => _$ClientControllerFromJson(json);
+
+	@override
+	Map<String, dynamic> toJson() => _$ClientControllerToJson(this);
+}

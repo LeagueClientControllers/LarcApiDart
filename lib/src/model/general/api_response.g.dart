@@ -8,18 +8,18 @@ part of 'api_response.dart';
 
 ApiResponse _$ApiResponseFromJson(Map<String, dynamic> json) => ApiResponse()
   ..result = $enumDecode(_$ExecutionResultEnumMap, json['result'])
-  ..error = $enumDecodeNullable(_$MethodErrorEnumMap, json['errorName'])
+  ..errorName = $enumDecodeNullable(_$MethodErrorEnumMap, json['errorName'])
   ..errorMessage = json['errorMessage'] as String?;
 
 Map<String, dynamic> _$ApiResponseToJson(ApiResponse instance) =>
     <String, dynamic>{
       'result': _$ExecutionResultEnumMap[instance.result],
-      'errorName': _$MethodErrorEnumMap[instance.error],
+      'errorName': _$MethodErrorEnumMap[instance.errorName],
       'errorMessage': instance.errorMessage,
     };
 
 const _$ExecutionResultEnumMap = {
-  ExecutionResult.okey: 'Okey',
+  ExecutionResult.okay: 'Okay',
   ExecutionResult.error: 'Error',
 };
 

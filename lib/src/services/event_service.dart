@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:lcc_api_dart/src/i_lcc_api.dart';
 import 'package:lcc_api_dart/src/model/client/gameflow_phase.dart';
 import 'package:lcc_api_dart/src/model/long_poll/client_event.dart';
-import 'package:lcc_api_dart/src/model/long_poll/long_poll_events_response.dart';
+import 'package:lcc_api_dart/src/model/long_poll/client_event_type.dart';
+import 'package:lcc_api_dart/src/model/long_poll/methods/long_poll_events_response.dart';
 
 /// Service that simplifies work with long poll.
 class EventService {

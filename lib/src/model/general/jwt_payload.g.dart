@@ -8,9 +8,9 @@ part of 'jwt_payload.dart';
 
 JwtPayload _$JwtPayloadFromJson(Map<String, dynamic> json) => JwtPayload()
   ..userId = json['userId'] as int
-  ..username = json['username'] as String
+  ..username = json['username'] as String?
   ..deviceId = json['deviceId'] as int
-  ..deviceType = $enumDecode(_$DeviceTypeEnumMap, json['deviceType'])
+  ..deviceType = $enumDecodeNullable(_$DeviceTypeEnumMap, json['deviceType'])
   ..issuedAt = json['iat'] as int
   ..expireAt = json['exp'] as int;
 

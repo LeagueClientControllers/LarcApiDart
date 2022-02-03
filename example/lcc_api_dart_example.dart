@@ -28,10 +28,18 @@ Future _main() async {
 
   ILccApi api = LccApi();
   await api.init(storage);
-  await api.identity
-      .login(LoginParameters("Rayms", "12345", "ApiTestDevice", DeviceType.phone), saveCredentials: true);
+  await api.identity.login(
+      LoginParameters(
+          "Test",
+          "dXR)A!^tV93cCKr:;cc'za*({MMg-R9\"Nm^8`&H]Tg_g)t\"xY<7hW97yr<EL,x,B`eFtX`46V8{TRtXeZXuP%jR<WdpZu\$D*EU}KEwHnFN%UV2*^ZMu(\"f%S3`!xuFNj",
+          DeviceType.phone,
+          "TestPhone"),
+      saveCredentials: true);
 
   print(await storage.retrieveAccessToken());
+
+  List<ClientController> controllers = await api.device.getControllers();
+  ClientController controller = await api.device.getControllerById(17);
 
   await api.events.startListening();
   print("Listening started");
