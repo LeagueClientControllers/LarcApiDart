@@ -1,16 +1,23 @@
 import 'dart:async';
-
 import 'package:lcc_api_dart/src/i_lcc_api.dart';
-import 'package:lcc_api_dart/src/model/client/gameflow_phase.dart';
-import 'package:lcc_api_dart/src/model/long_poll/client_event.dart';
-import 'package:lcc_api_dart/src/model/long_poll/client_event_type.dart';
-import 'package:lcc_api_dart/src/model/long_poll/methods/long_poll_events_response.dart';
+import 'package:lcc_api_dart/src/model/lcc_api_dart_model.dart';
+import 'package:tuple/tuple.dart';
 
 /// Service that simplifies work with long poll.
 class EventService {
-  Stream<GameflowPhase?> get gameflowPhaseChanged => _gameflowPhaseChangedController.stream;
-  final StreamController<GameflowPhase?> _gameflowPhaseChangedController =
-      StreamController<GameflowPhase>.broadcast();
+  Stream<Tuple2<int, GameflowPhase?>> get gameflowPhaseChanged => _gameflowPhaseChangedController.stream;
+  final StreamController<Tuple2<int, GameflowPhase?>> _gameflowPhaseChangedController =
+      StreamController<Tuple2<int, GameflowPhase?>>.broadcast();
+
+  Stream<int> get deviceAdded => _deviceAddedController.stream;
+  final StreamController<int> _deviceAddedController = StreamController<int>.broadcast();
+
+  Stream<Tuple2<int, String>> get deviceNameChanged => _deviceNameChangedController.stream;
+  final StreamController<Tuple2<int, String>> _deviceNameChangedController =
+      StreamController<Tuple2<int, String>>.broadcast();
+
+  Stream<int> get deviceRemoved => _deviceRemovedController.stream;
+  final StreamController<int> _deviceRemovedController = StreamController<int>.broadcast();
 
   final ILccApi _api;
   bool _isListening = false;
@@ -37,14 +44,27 @@ class EventService {
         if (event.type == ClientEventType.gameflowPhaseChanged) {
           String? phaseString = event.changes!["gameflowPhase"] as String?;
           if (phaseString == null) {
-            _gameflowPhaseChangedController.add(null);
+            _gameflowPhaseChangedController.add(Tuple2(event.controllerId, null));
             continue;
           }
 
           GameflowPhase phase = GameflowPhase.values.firstWhere((e) =>
               e.toString() == "GameflowPhase.${phaseString[0].toLowerCase()}${phaseString.substring(1)}");
 
-          _gameflowPhaseChangedController.add(phase);
+          _gameflowPhaseChangedController.add(Tuple2(event.controllerId, phase));
+        }
+      }
+
+      for (var i = 0; i < response.events.deviceEvents.length; i++) {
+        DeviceEvent event = response.events.deviceEvents[i];
+        if (event.type == DeviceEventType.deviceAdded) {
+          _deviceAddedController.add(event.deviceId);
+        } else if (event.type == DeviceEventType.deviceChanged) {
+          if (event.changes!.containsKey("name")) {
+            _deviceNameChangedController.add(Tuple2(event.deviceId, event.changes!["name"] as String));
+          }
+        } else if (event.type == DeviceEventType.deviceRemoved) {
+          _deviceRemovedController.add(event.deviceId);
         }
       }
 
@@ -54,5 +74,8 @@ class EventService {
 
   void dispose() {
     _gameflowPhaseChangedController.close();
+    _deviceAddedController.close();
+    _deviceNameChangedController.close();
+    _deviceRemovedController.close();
   }
 }

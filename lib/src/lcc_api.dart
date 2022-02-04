@@ -4,9 +4,7 @@ import 'dart:convert';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:lcc_api_dart/src/categories/device_category.dart';
-import 'package:lcc_api_dart/src/categories/identity_category.dart';
-import 'package:lcc_api_dart/src/categories/long_poll_category.dart';
+import 'package:lcc_api_dart/src/categories/lcc_api_dart_categories.dart';
 import 'package:lcc_api_dart/src/exceptions/api_method_exception.dart';
 import 'package:lcc_api_dart/src/exceptions/user_not_authorized_exception.dart';
 import 'package:lcc_api_dart/src/exceptions/wrong_access_token_exception.dart';
@@ -34,19 +32,27 @@ class LccApi implements ILccApi {
   JwtPayload? _accessTokenPayload;
 
   late IUserCredentialsStorage _credentialsStorage;
-  late IdentityCategory _identityCategory;
-  late LongPollCategory _longPollCategory;
-  late DeviceCategory _deviceCategory;
+  late IIdentityCategory _identityCategory;
+  late IDeviceCategory _deviceCategory;
+  late ILongPollCategory _longPollCategory;
+  late IClientCategory _clientCategory;
+  late ITeamsCategory _teamsCategory;
   late EventService _events;
 
   @override
-  IdentityCategory get identity => _identityCategory;
+  IIdentityCategory get identity => _identityCategory;
 
   @override
-  DeviceCategory get device => _deviceCategory;
+  IDeviceCategory get device => _deviceCategory;
 
   @override
-  LongPollCategory get longPoll => _longPollCategory;
+  ILongPollCategory get longPoll => _longPollCategory;
+
+  @override
+  IClientCategory get client => _clientCategory;
+
+  @override
+  ITeamsCategory get teams => _teamsCategory;
 
   @override
   EventService get events => _events;
@@ -58,6 +64,8 @@ class LccApi implements ILccApi {
     _identityCategory = IdentityCategory(this);
     _deviceCategory = DeviceCategory(this);
     _longPollCategory = LongPollCategory(this);
+    _clientCategory = ClientCategory(this);
+    _teamsCategory = TeamsCategory(this);
     _events = EventService(this);
   }
 
@@ -313,6 +321,8 @@ class LccApi implements ILccApi {
 
   Future<String> _executeBase(String methodPath, String payload, bool withAccessToken) async {
     Uri url = Uri.parse("$_baseApiUri/$methodPath");
+    print("Request to '$url' started. Payload - $payload");
+
     Response? response;
     if (withAccessToken) {
       if (_accessToken == null) {
@@ -325,11 +335,14 @@ class LccApi implements ILccApi {
       response = await http.post(url, headers: _requestHeaders, body: payload);
     }
 
+    print("Request to '$url' ended. Response - ${response.body}");
     return response.body;
   }
 
   Future<String> _executeBaseNoPayload(String methodPath, bool withAccessToken) async {
     Uri url = Uri.parse("$_baseApiUri/$methodPath");
+    print("Request to '$url' started");
+
     Response? response;
     if (withAccessToken) {
       if (_accessToken == null) {
@@ -342,6 +355,7 @@ class LccApi implements ILccApi {
       response = await http.post(url, headers: _requestHeaders);
     }
 
+    print("Request to '$url' ended. Response - ${response.body}");
     return response.body;
   }
 }

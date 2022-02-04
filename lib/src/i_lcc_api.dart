@@ -1,6 +1,4 @@
-import 'package:lcc_api_dart/src/categories/device_category.dart';
-import 'package:lcc_api_dart/src/categories/identity_category.dart';
-import 'package:lcc_api_dart/src/categories/long_poll_category.dart';
+import 'package:lcc_api_dart/src/categories/lcc_api_dart_categories.dart';
 import 'package:lcc_api_dart/src/model/general/api_response.dart';
 import 'package:lcc_api_dart/src/security/i_user_credentials_storage.dart';
 import 'package:lcc_api_dart/src/services/event_service.dart';
@@ -9,13 +7,19 @@ import 'package:lcc_api_dart/src/utils/base_json_serializable.dart';
 /// Abstraction of the head API class.
 abstract class ILccApi {
   /// Category that contains methods that work with authorization, token, user data etc.
-  IdentityCategory get identity;
+  IIdentityCategory get identity;
 
   /// Category that contains methods that work with devices and client controllers.
-  DeviceCategory get device;
+  IDeviceCategory get device;
 
   /// Category that contains methods that work with event system.
-  LongPollCategory get longPoll;
+  ILongPollCategory get longPoll;
+
+  /// Category that contains methods that work with league client.
+  IClientCategory get client;
+
+  /// Category that contains methods that work with teams and meetings.
+  ITeamsCategory get teams;
 
   /// Service to simplify work with user events.
   EventService get events;

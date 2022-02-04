@@ -1,30 +1,35 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lcc_api_dart/src/model/client/gameflow_phase.dart';
 import 'package:lcc_api_dart/src/utils/base_json_serializable.dart';
-
 
 part 'client_controller.g.dart';
 
 /// Describes controller - desktop application that is controlling league client.
 @JsonSerializable()
-class ClientController implements BaseJsonSerializable<ClientController>
-{
-	/// Identifier of the controller.
-	@JsonKey(name: "id")
-	late int id;
+class ClientController implements BaseJsonSerializable<ClientController> {
+  
 
-	/// Name of the controller.
-	@JsonKey(name: "name")
-	late String name;
+  /// Identifier of the controller.
+  @JsonKey(name: "id")
+  late int id;
 
-	/// Whether this controller is long polling events.
-	@JsonKey(name: "isOnline")
-	late bool isOnline;
+  /// Name of the controller.
+  @JsonKey(name: "name")
+  late String name;
 
-	ClientController(): super();
+  /// Whether this controller is long polling events.
+  @JsonKey(name: "isOnline")
+  late bool isOnline;
 
-	@override
-	factory ClientController.fromJson(Map<String, dynamic> json) => _$ClientControllerFromJson(json);
+  /// Current gameflow phase of the league client.
+  @JsonKey(name: "gameflowPhase")
+  GameflowPhase? gameflowPhase;
 
-	@override
-	Map<String, dynamic> toJson() => _$ClientControllerToJson(this);
+  ClientController() : super();
+
+  @override
+  factory ClientController.fromJson(Map<String, dynamic> json) => _$ClientControllerFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$ClientControllerToJson(this);
 }
