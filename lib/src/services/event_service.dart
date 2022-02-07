@@ -16,6 +16,10 @@ class EventService {
   final StreamController<Tuple2<int, String>> _deviceNameChangedController =
       StreamController<Tuple2<int, String>>.broadcast();
 
+  Stream<Tuple2<int, bool>> get deviceStatusChanged => _deviceStatusChangedController.stream;
+  final StreamController<Tuple2<int, bool>> _deviceStatusChangedController =
+      StreamController<Tuple2<int, bool>>.broadcast();
+
   Stream<int> get deviceRemoved => _deviceRemovedController.stream;
   final StreamController<int> _deviceRemovedController = StreamController<int>.broadcast();
 
@@ -62,6 +66,8 @@ class EventService {
         } else if (event.type == DeviceEventType.deviceChanged) {
           if (event.changes!.containsKey("name")) {
             _deviceNameChangedController.add(Tuple2(event.deviceId, event.changes!["name"] as String));
+          } else if (event.changes!.containsKey("isOnline")) {
+            _deviceStatusChangedController.add(Tuple2(event.deviceId, event.changes!["isOnline"] as bool));
           }
         } else if (event.type == DeviceEventType.deviceRemoved) {
           _deviceRemovedController.add(event.deviceId);
@@ -76,6 +82,7 @@ class EventService {
     _gameflowPhaseChangedController.close();
     _deviceAddedController.close();
     _deviceNameChangedController.close();
+    _deviceStatusChangedController.close();
     _deviceRemovedController.close();
   }
 }
