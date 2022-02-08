@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:lcc_api_dart/lcc_api_dart.dart';
 
 class MockStorage implements IUserCredentialsStorage {
@@ -21,6 +23,8 @@ class MockStorage implements IUserCredentialsStorage {
 
 void main() {
   _main();
+
+  stdin.readLineSync();
 }
 
 Future _main() async {
@@ -30,23 +34,21 @@ Future _main() async {
   await api.init(storage);
   await api.identity.login(
       LoginParameters(
-          "Test",
-          "9Ty69pAsF+z7Ka@6e4ebx&hZb@=VQ&**vJK\$gq%eAcwbp82vjpjusYm-4C!7BFCHNe7vD_fBP2urWQEVTg8VFu@HtTg8a6fT#FH!^AFqzFs@KLd-qvK&k5Ue\$Y#Aj3BtMU7EK_d*XRzAd3mhzJJKm&yscFkuddqArjByHtJqd+dWJbCdfJ8VuNQKpV-ZAL9v-5RL&YH=Y+%b\$y+hrhg!%DKUJ5ggR-sfxd7!*g%K8*@MB7rMNVr#t?P^Z6jHN*Rh",
+          "Rayms",
+          "12345", //9Ty69pAsF+z7Ka@6e4ebx&hZb@=VQ&**vJK\$gq%eAcwbp82vjpjusYm-4C!7BFCHNe7vD_fBP2urWQEVTg8VFu@HtTg8a6fT#FH!^AFqzFs@KLd-qvK&k5Ue\$Y#Aj3BtMU7EK_d*XRzAd3mhzJJKm&yscFkuddqArjByHtJqd+dWJbCdfJ8VuNQKpV-ZAL9v-5RL&YH=Y+%b\$y+hrhg!%DKUJ5ggR-sfxd7!*g%K8*@MB7rMNVr#t?P^Z6jHN*Rh
           DeviceType.phone,
-          "TestPhone"),
+          "DartApiTestPhone"),
       saveCredentials: true);
 
   print(await storage.retrieveAccessToken());
 
   List<ClientController> controllers = await api.device.getControllers();
-  ClientController controller = await api.device.getControllerById(17);
+  //ClientController controller = await api.device.getControllerById(17);
 
-  api.events.deviceNameChanged.listen((data) {
-    print("${data.item1}: ${data.item2}");
+  api.events.gameflowPhaseChanged.listen((data) {
+    print("${data.item1}: ${data.item2} | ${data.item3}");
   });
 
   await api.events.startListening();
   print("Listening started");
-
-  await Future.delayed(Duration(days: 1));
 }

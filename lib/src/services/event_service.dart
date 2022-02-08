@@ -3,11 +3,14 @@ import 'package:lcc_api_dart/src/i_lcc_api.dart';
 import 'package:lcc_api_dart/src/model/lcc_api_dart_model.dart';
 import 'package:tuple/tuple.dart';
 
+import '../../lcc_api_dart.dart';
+
 /// Service that simplifies work with long poll.
 class EventService {
-  Stream<Tuple2<int, GameflowPhase?>> get gameflowPhaseChanged => _gameflowPhaseChangedController.stream;
-  final StreamController<Tuple2<int, GameflowPhase?>> _gameflowPhaseChangedController =
-      StreamController<Tuple2<int, GameflowPhase?>>.broadcast();
+  Stream<Tuple3<int, GameflowPhase?, DateTime?>> get gameflowPhaseChanged =>
+      _gameflowPhaseChangedController.stream;
+  final StreamController<Tuple3<int, GameflowPhase?, DateTime?>> _gameflowPhaseChangedController =
+      StreamController<Tuple3<int, GameflowPhase?, DateTime?>>.broadcast();
 
   Stream<int> get deviceAdded => _deviceAddedController.stream;
   final StreamController<int> _deviceAddedController = StreamController<int>.broadcast();
@@ -48,14 +51,23 @@ class EventService {
         if (event.type == ClientEventType.gameflowPhaseChanged) {
           String? phaseString = event.changes!["gameflowPhase"] as String?;
           if (phaseString == null) {
-            _gameflowPhaseChangedController.add(Tuple2(event.controllerId, null));
+            _gameflowPhaseChangedController.add(Tuple3(event.controllerId, null, null));
             continue;
           }
 
           GameflowPhase phase = GameflowPhase.values.firstWhere((e) =>
               e.toString() == "GameflowPhase.${phaseString[0].toLowerCase()}${phaseString.substring(1)}");
 
-          _gameflowPhaseChangedController.add(Tuple2(event.controllerId, phase));
+          if (phase == GameflowPhase.readyCheck) {
+            DateTime? readyCheckStarted = event.changes!["readyCheckStarted"] as DateTime?;
+            if (readyCheckStarted == null) {
+              throw WrongResponseException("longpoll/getEvents");
+            }
+
+            _gameflowPhaseChangedController.add(Tuple3(event.controllerId, phase, readyCheckStarted));
+          } else {
+            _gameflowPhaseChangedController.add(Tuple3(event.controllerId, phase, null));
+          }
         }
       }
 
