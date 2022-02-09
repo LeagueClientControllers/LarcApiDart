@@ -12,7 +12,9 @@ ClientController _$ClientControllerFromJson(Map<String, dynamic> json) =>
       ..name = json['name'] as String
       ..isOnline = json['isOnline'] as bool
       ..gameflowPhase =
-          $enumDecodeNullable(_$GameflowPhaseEnumMap, json['gameflowPhase']);
+          $enumDecodeNullable(_$GameflowPhaseEnumMap, json['gameflowPhase'])
+      ..readyCheckStarted =
+          fromUnixTimestampToDateTime(json['readyCheckStarted'] as int?);
 
 Map<String, dynamic> _$ClientControllerToJson(ClientController instance) =>
     <String, dynamic>{
@@ -20,6 +22,8 @@ Map<String, dynamic> _$ClientControllerToJson(ClientController instance) =>
       'name': instance.name,
       'isOnline': instance.isOnline,
       'gameflowPhase': _$GameflowPhaseEnumMap[instance.gameflowPhase],
+      'readyCheckStarted':
+          fromDateTimeToUnixTimestamp(instance.readyCheckStarted),
     };
 
 const _$GameflowPhaseEnumMap = {

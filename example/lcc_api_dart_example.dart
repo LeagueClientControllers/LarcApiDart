@@ -23,8 +23,6 @@ class MockStorage implements IUserCredentialsStorage {
 
 void main() {
   _main();
-
-  stdin.readLineSync();
 }
 
 Future _main() async {
@@ -51,4 +49,11 @@ Future _main() async {
 
   await api.events.startListening();
   print("Listening started");
+
+  print("Command sending started");
+  CommandResult result = await api.commands.sendCommand(9, CommandName.acceptMatch);
+  print("Command executed");
+  print("${result.result} | ${result.error} | ${result.errorMessage}");
+
+  await Future.delayed(Duration(days: 1));
 }

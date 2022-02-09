@@ -26,6 +26,10 @@ class EventService {
   Stream<int> get deviceRemoved => _deviceRemovedController.stream;
   final StreamController<int> _deviceRemovedController = StreamController<int>.broadcast();
 
+  Stream<Tuple2<int, CommandResult>> get commandExecuted => _commandExecutedController.stream;
+  final StreamController<Tuple2<int, CommandResult>> _commandExecutedController =
+      StreamController<Tuple2<int, CommandResult>>.broadcast();
+
   final ILccApi _api;
   bool _isListening = false;
   late int _lastEventId;
@@ -59,12 +63,13 @@ class EventService {
               e.toString() == "GameflowPhase.${phaseString[0].toLowerCase()}${phaseString.substring(1)}");
 
           if (phase == GameflowPhase.readyCheck) {
-            DateTime? readyCheckStarted = event.changes!["readyCheckStarted"] as DateTime?;
+            int? readyCheckStarted = event.changes!["readyCheckStarted"] as int?;
             if (readyCheckStarted == null) {
               throw WrongResponseException("longpoll/getEvents");
             }
 
-            _gameflowPhaseChangedController.add(Tuple3(event.controllerId, phase, readyCheckStarted));
+            _gameflowPhaseChangedController.add(Tuple3(event.controllerId, phase,
+                DateTime.fromMillisecondsSinceEpoch(readyCheckStarted * 1000, isUtc: true)));
           } else {
             _gameflowPhaseChangedController.add(Tuple3(event.controllerId, phase, null));
           }
@@ -86,6 +91,13 @@ class EventService {
         }
       }
 
+      for (var i = 0; i < response.events.commandEvents.length; i++) {
+        CommandEvent event = response.events.commandEvents[i];
+        if (event.type == CommandEventType.commandExecuted) {
+          _commandExecutedController.add(Tuple2(event.commandId, event.commandResult!));
+        }
+      }
+
       _lastEventId = response.lastEventId;
     }
   }
@@ -96,5 +108,6 @@ class EventService {
     _deviceNameChangedController.close();
     _deviceStatusChangedController.close();
     _deviceRemovedController.close();
+    _commandExecutedController.close();
   }
 }

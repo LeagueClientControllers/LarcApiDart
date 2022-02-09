@@ -11,6 +11,7 @@ export 'src/model/lcc_api_dart_model.dart';
 
 export 'src/services/event_service.dart';
 
+export 'src/exceptions/network_unreachable_exception.dart';
 export 'src/exceptions/api_method_exception.dart';
 export 'src/exceptions/user_not_authorized_exception.dart';
 export 'src/exceptions/wrong_access_token_exception.dart';

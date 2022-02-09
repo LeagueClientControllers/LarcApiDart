@@ -1,6 +1,7 @@
 import 'package:lcc_api_dart/src/categories/lcc_api_dart_categories.dart';
 import 'package:lcc_api_dart/src/model/general/api_response.dart';
 import 'package:lcc_api_dart/src/security/i_user_credentials_storage.dart';
+import 'package:lcc_api_dart/src/services/commands_service.dart';
 import 'package:lcc_api_dart/src/services/event_service.dart';
 import 'package:lcc_api_dart/src/utils/base_json_serializable.dart';
 
@@ -23,6 +24,9 @@ abstract class ILccApi {
 
   /// Service to simplify work with user events.
   EventService get events;
+
+  /// Service to send commands and wait for their results properly.
+  CommandsService get commands;
 
   /// Is the credentials exists and they are valid to authorize user in the api.
   bool get userAuthorized;

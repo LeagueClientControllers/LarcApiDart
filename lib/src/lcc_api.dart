@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:http/http.dart' as http;
@@ -15,9 +16,11 @@ import 'package:lcc_api_dart/src/model/general/jwt_payload.dart';
 import 'package:lcc_api_dart/src/model/general/method_error.dart';
 import 'package:lcc_api_dart/src/security/api_credentials.dart';
 import 'package:lcc_api_dart/src/security/i_user_credentials_storage.dart';
+import 'package:lcc_api_dart/src/services/commands_service.dart';
 import 'package:lcc_api_dart/src/services/event_service.dart';
 import 'package:lcc_api_dart/src/utils/base_json_serializable.dart';
 
+import 'exceptions/network_unreachable_exception.dart';
 import 'i_lcc_api.dart';
 
 class LccApi implements ILccApi {
@@ -38,6 +41,7 @@ class LccApi implements ILccApi {
   late IClientCategory _clientCategory;
   late ITeamsCategory _teamsCategory;
   late EventService _events;
+  late CommandsService _commands;
 
   @override
   IIdentityCategory get identity => _identityCategory;
@@ -58,6 +62,9 @@ class LccApi implements ILccApi {
   EventService get events => _events;
 
   @override
+  CommandsService get commands => _commands;
+
+  @override
   bool get userAuthorized => _accessToken != null;
 
   LccApi() {
@@ -66,7 +73,9 @@ class LccApi implements ILccApi {
     _longPollCategory = LongPollCategory(this);
     _clientCategory = ClientCategory(this);
     _teamsCategory = TeamsCategory(this);
+
     _events = EventService(this);
+    _commands = CommandsService(this);
   }
 
   @override
@@ -324,15 +333,27 @@ class LccApi implements ILccApi {
     print("Request to '$url' started. Payload - $payload");
 
     Response? response;
-    if (withAccessToken) {
-      if (_accessToken == null) {
-        throw UserNotAuthorizedException(methodPath);
+    try {
+      if (withAccessToken) {
+        if (_accessToken == null) {
+          throw UserNotAuthorizedException(methodPath);
+        }
+
+        response = await http.post(url,
+            headers: Map.from(_requestHeaders)..["Authorization"] = "Bearer $_accessToken", body: payload);
+      } else {
+        response = await http.post(url, headers: _requestHeaders, body: payload);
+      }
+    } on SocketException catch (e) {
+      if (e.osError == null) {
+        throw NetworkUnreachableException(methodPath);
       }
 
-      response = await http.post(url,
-          headers: Map.from(_requestHeaders)..["Authorization"] = "Bearer $_accessToken", body: payload);
-    } else {
-      response = await http.post(url, headers: _requestHeaders, body: payload);
+      if (e.osError!.errorCode == 101) {
+        throw NetworkUnreachableException(methodPath);
+      }
+
+      rethrow;
     }
 
     print("Request to '$url' ended. Response - ${response.body}");
@@ -344,15 +365,27 @@ class LccApi implements ILccApi {
     print("Request to '$url' started");
 
     Response? response;
-    if (withAccessToken) {
-      if (_accessToken == null) {
-        throw UserNotAuthorizedException(methodPath);
+    try {
+      if (withAccessToken) {
+        if (_accessToken == null) {
+          throw UserNotAuthorizedException(methodPath);
+        }
+
+        response = await http.post(url,
+            headers: Map.from(_requestHeaders)..["Authorization"] = "Bearer $_accessToken");
+      } else {
+        response = await http.post(url, headers: _requestHeaders);
+      }
+    } on SocketException catch (e) {
+      if (e.osError == null) {
+        throw NetworkUnreachableException(methodPath);
       }
 
-      response = await http.post(url,
-          headers: Map.from(_requestHeaders)..["Authorization"] = "Bearer $_accessToken");
-    } else {
-      response = await http.post(url, headers: _requestHeaders);
+      if (e.osError!.errorCode == 101) {
+        throw NetworkUnreachableException(methodPath);
+      }
+
+      rethrow;
     }
 
     print("Request to '$url' ended. Response - ${response.body}");
