@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:lcc_api_dart/src/i_lcc_api.dart';
 import 'package:lcc_api_dart/src/model/lcc_api_dart_model.dart';
+import 'package:lcc_api_dart/src/services/event_service_process_controller.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../lcc_api_dart.dart';
@@ -31,24 +32,20 @@ class EventService {
       StreamController<Tuple2<int, CommandResult>>.broadcast();
 
   final ILccApi _api;
-  bool _isListening = false;
   late int _lastEventId;
   EventService(this._api);
 
   /// Starts listening process.
-  Future startListening() async {
-    _isListening = true;
+  Future<LongPollProcessController> startListening() async {
     _lastEventId = await _api.longPoll.getLastEventId();
-    _listenerLoop();
+
+    LongPollProcessController controller = LongPollProcessController();
+    _listenerLoop(controller).onError((error, stackTrace) => controller.onException(error));
+    return controller;
   }
 
-  /// Stops listening process.
-  void stopListening() {
-    _isListening = false;
-  }
-
-  Future _listenerLoop() async {
-    while (_isListening) {
+  Future _listenerLoop(LongPollProcessController processController) async {
+    while (!processController.cancelled) {
       LongPollEventsResponse response = await _api.longPoll.getEvents(_lastEventId, timeout: 30);
       for (var i = 0; i < response.events.clientEvents.length; i++) {
         ClientEvent event = response.events.clientEvents[i];

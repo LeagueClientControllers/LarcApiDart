@@ -10,6 +10,8 @@ export 'src/categories/lcc_api_dart_categories.dart';
 export 'src/model/lcc_api_dart_model.dart';
 
 export 'src/services/event_service.dart';
+export 'src/services/commands_service.dart';
+export 'src/services/event_service_process_controller.dart';
 
 export 'src/exceptions/network_unreachable_exception.dart';
 export 'src/exceptions/api_method_exception.dart';
