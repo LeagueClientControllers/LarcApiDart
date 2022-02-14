@@ -24,7 +24,9 @@ import 'exceptions/network_unreachable_exception.dart';
 import 'i_lcc_api.dart';
 
 class LccApi implements ILccApi {
-  static const String _apiHost = "150.230.151.8:56067";
+  static const String _apiHost =
+      bool.fromEnvironment("dart.vm.product") ? "www.larc.ml/api" : "www.larc.ml/dev";
+
   static const String _baseApiUri = "http://$_apiHost";
   static const Map<String, String> _requestHeaders = {
     "Content-Type": "application/json;charset=utf-8",
