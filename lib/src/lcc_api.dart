@@ -351,7 +351,7 @@ class LccApi implements ILccApi {
         throw NetworkUnreachableException(methodPath);
       }
 
-      if (e.osError!.errorCode == 101) {
+      if (e.osError!.errorCode == 101 || e.osError!.errorCode == 7) {
         throw NetworkUnreachableException(methodPath);
       }
 
@@ -383,7 +383,7 @@ class LccApi implements ILccApi {
         throw NetworkUnreachableException(methodPath);
       }
 
-      if (e.osError!.errorCode == 101) {
+      if (e.osError!.errorCode == 101 || e.osError!.errorCode == 7) {
         throw NetworkUnreachableException(methodPath);
       }
 
