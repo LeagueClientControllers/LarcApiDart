@@ -4,9 +4,10 @@ import 'package:lcc_api_dart/src/security/i_user_credentials_storage.dart';
 import 'package:lcc_api_dart/src/services/commands_service.dart';
 import 'package:lcc_api_dart/src/services/event_service.dart';
 import 'package:lcc_api_dart/src/utils/base_json_serializable.dart';
+import 'package:lcc_api_dart/src/utils/i_disposable.dart';
 
 /// Abstraction of the head API class.
-abstract class ILccApi {
+abstract class ILccApi implements IAsyncDisposable {
   /// Category that contains methods that work with authorization, token, user data etc.
   IIdentityCategory get identity;
 
@@ -29,12 +30,15 @@ abstract class ILccApi {
   CommandsService get commands;
 
   /// Is the credentials exists and they are valid to authorize user in the api.
-  bool get userAuthorized;
+  bool get userAuthorized => accessToken != null;
+
+  /// Token string that is used to call methods that require authorization.
+  String? get accessToken;
 
   /// Initializes API module with [credentialsStorage].
   /// If some access token was stored in the [credentialsStorage],
   /// tries to refresh it and store new access token in the storage.
-  Future init(IUserCredentialsStorage credentialsStorage);
+  Future init({IUserCredentialsStorage? credentialsStorage, String? accessToken});
 
   /// Sets current access token that is used to execute methods
   /// that require authorization to the [accessToken], validating it.

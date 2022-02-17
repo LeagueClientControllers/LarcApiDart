@@ -29,7 +29,7 @@ Future _main() async {
   MockStorage storage = MockStorage();
 
   ILccApi api = LccApi();
-  await api.init(storage);
+  await api.init(credentialsStorage: storage);
   await api.identity.login(
       LoginParameters(
           "Rayms",

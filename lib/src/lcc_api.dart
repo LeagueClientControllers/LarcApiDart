@@ -23,7 +23,7 @@ import 'package:lcc_api_dart/src/utils/base_json_serializable.dart';
 import 'exceptions/network_unreachable_exception.dart';
 import 'i_lcc_api.dart';
 
-class LccApi implements ILccApi {
+class LccApi extends ILccApi {
   static const String _apiHost =
       bool.fromEnvironment("dart.vm.product") ? "www.larc.ml/api" : "www.larc.ml/dev";
 
@@ -36,7 +36,7 @@ class LccApi implements ILccApi {
   String? _accessToken;
   JwtPayload? _accessTokenPayload;
 
-  late IUserCredentialsStorage _credentialsStorage;
+  IUserCredentialsStorage? _credentialsStorage;
   late IIdentityCategory _identityCategory;
   late IDeviceCategory _deviceCategory;
   late ILongPollCategory _longPollCategory;
@@ -67,7 +67,7 @@ class LccApi implements ILccApi {
   CommandsService get commands => _commands;
 
   @override
-  bool get userAuthorized => _accessToken != null;
+  String? get accessToken => _accessToken;
 
   LccApi() {
     _identityCategory = IdentityCategory(this);
@@ -81,10 +81,16 @@ class LccApi implements ILccApi {
   }
 
   @override
-  Future init(IUserCredentialsStorage credentialsStorage) async {
+  Future init({IUserCredentialsStorage? credentialsStorage, String? accessToken}) async {
     _credentialsStorage = credentialsStorage;
 
-    String? oldToken = await _credentialsStorage.retrieveAccessToken();
+    String? oldToken;
+    if (_credentialsStorage != null) {
+      oldToken = await _credentialsStorage!.retrieveAccessToken();
+    } else {
+      oldToken = accessToken;
+    }
+
     if (oldToken == null) return;
     _accessToken = oldToken;
 
@@ -94,7 +100,7 @@ class LccApi implements ILccApi {
     } on ApiMethodException catch (e) {
       if (e.error == MethodError.wrongAccessToken) {
         _accessToken = null;
-        _credentialsStorage.clearAccessToken();
+        _credentialsStorage?.clearAccessToken();
       } else {
         rethrow;
       }
@@ -112,7 +118,7 @@ class LccApi implements ILccApi {
     }
 
     if (store) {
-      _credentialsStorage.storeAccessToken(accessToken);
+      _credentialsStorage?.storeAccessToken(accessToken);
     }
   }
 
@@ -356,6 +362,8 @@ class LccApi implements ILccApi {
       }
 
       rethrow;
+    } on http.ClientException {
+      throw NetworkUnreachableException(methodPath);
     }
 
     print("Request to '$url' ended. Response - ${response.body}");
@@ -388,9 +396,16 @@ class LccApi implements ILccApi {
       }
 
       rethrow;
+    } on http.ClientException {
+      throw NetworkUnreachableException(methodPath);
     }
 
     print("Request to '$url' ended. Response - ${response.body}");
     return response.body;
+  }
+
+  @override
+  Future dispose() async {
+    _events.dispose();
   }
 }

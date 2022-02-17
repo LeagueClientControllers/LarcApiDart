@@ -2,8 +2,8 @@ import 'dart:async';
 
 /// Used to control process of constant events fetching.
 class LongPollProcessController {
-  Stream<Object?> get exceptionOccured => _exceptionOccuredController.stream;
-  final StreamController<Object?> _exceptionOccuredController = StreamController<Object?>.broadcast();
+  Stream<Object?> get exceptionOccurred => _exceptionOccurredController.stream;
+  final StreamController<Object?> _exceptionOccurredController = StreamController<Object?>.broadcast();
 
   bool __cancelled = false;
   bool get cancelled => __cancelled;
@@ -15,6 +15,6 @@ class LongPollProcessController {
 
   void onException(Object? e) {
     cancel();
-    _exceptionOccuredController.sink.add(e);
+    _exceptionOccurredController.sink.add(e);
   }
 }
