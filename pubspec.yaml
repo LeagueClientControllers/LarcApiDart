@@ -13,6 +13,10 @@ dependencies:
   dart_jsonwebtoken: ^2.4.0
   tuple: ^2.0.0
   http: ^0.13.4
+  decimal: ^2.2.0
+  web_socket_channel: ^2.1.0
+  dart_library_generator: 
+    path: ../LibraryGenerators/DartLibraryGenerator/
 #   path: ^1.8.0
 
 dev_dependencies:

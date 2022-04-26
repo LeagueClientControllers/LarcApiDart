@@ -9,8 +9,9 @@ part of 'command_result.dart';
 CommandResult _$CommandResultFromJson(Map<String, dynamic> json) =>
     CommandResult(
       $enumDecode(_$ExecutionResultEnumMap, json['result']),
-      error: $enumDecodeNullable(_$CommandErrorEnumMap, json['error']),
-      errorMessage: json['errorMessage'] as String?,
+      $enumDecodeNullable(_$CommandErrorEnumMap, json['error']),
+      json['errorMessage'] as String?,
+      json['info'],
     );
 
 Map<String, dynamic> _$CommandResultToJson(CommandResult instance) =>
@@ -18,13 +19,14 @@ Map<String, dynamic> _$CommandResultToJson(CommandResult instance) =>
       'result': _$ExecutionResultEnumMap[instance.result],
       'error': _$CommandErrorEnumMap[instance.error],
       'errorMessage': instance.errorMessage,
+      'info': instance.info,
     };
 
 const _$ExecutionResultEnumMap = {
-  ExecutionResult.okay: 'Okay',
-  ExecutionResult.error: 'Error',
+  ExecutionResult.Okay: 'Okay',
+  ExecutionResult.Error: 'Error',
 };
 
 const _$CommandErrorEnumMap = {
-  CommandError.readyCheckError: 'ReadyCheckError',
+  CommandError.ReadyCheckError: 'ReadyCheckError',
 };

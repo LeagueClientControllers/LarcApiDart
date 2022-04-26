@@ -6,10 +6,14 @@ part of 'command.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Command _$CommandFromJson(Map<String, dynamic> json) => Command()
-  ..id = json['id'] as int
-  ..name = $enumDecode(_$CommandNameEnumMap, json['name'])
-  ..args = json['args'];
+Command _$CommandFromJson(Map<String, dynamic> json) => Command(
+      json['id'] as int,
+      $enumDecode(_$CommandNameEnumMap, json['name']),
+      json['args'] == null
+          ? null
+          : SomeParametrizedCommandArgs.fromJson(
+              json['args'] as Map<String, dynamic>),
+    );
 
 Map<String, dynamic> _$CommandToJson(Command instance) => <String, dynamic>{
       'id': instance.id,
@@ -18,6 +22,7 @@ Map<String, dynamic> _$CommandToJson(Command instance) => <String, dynamic>{
     };
 
 const _$CommandNameEnumMap = {
-  CommandName.acceptMatch: 'AcceptMatch',
-  CommandName.declineMatch: 'DeclineMatch',
+  CommandName.DeclineMatch: 'DeclineMatch',
+  CommandName.AcceptMatch: 'AcceptMatch',
+  CommandName.SomeParametrized: 'SomeParametrized',
 };

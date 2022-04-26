@@ -7,14 +7,15 @@ part of 'client_controller.dart';
 // **************************************************************************
 
 ClientController _$ClientControllerFromJson(Map<String, dynamic> json) =>
-    ClientController()
-      ..id = json['id'] as int
-      ..name = json['name'] as String
-      ..isOnline = json['isOnline'] as bool
-      ..gameflowPhase =
-          $enumDecodeNullable(_$GameflowPhaseEnumMap, json['gameflowPhase'])
-      ..readyCheckStarted =
-          fromUnixTimestampToDateTime(json['readyCheckStarted'] as int?);
+    ClientController(
+      json['id'] as int,
+      json['name'] as String,
+      json['isOnline'] as bool,
+      $enumDecodeNullable(_$GameflowPhaseEnumMap, json['gameflowPhase']),
+      json['readyCheckStarted'] == null
+          ? null
+          : DateTime.parse(json['readyCheckStarted'] as String),
+    );
 
 Map<String, dynamic> _$ClientControllerToJson(ClientController instance) =>
     <String, dynamic>{
@@ -22,23 +23,22 @@ Map<String, dynamic> _$ClientControllerToJson(ClientController instance) =>
       'name': instance.name,
       'isOnline': instance.isOnline,
       'gameflowPhase': _$GameflowPhaseEnumMap[instance.gameflowPhase],
-      'readyCheckStarted':
-          fromDateTimeToUnixTimestamp(instance.readyCheckStarted),
+      'readyCheckStarted': instance.readyCheckStarted?.toIso8601String(),
     };
 
 const _$GameflowPhaseEnumMap = {
-  GameflowPhase.none: 'None',
-  GameflowPhase.lobby: 'Lobby',
-  GameflowPhase.matchmaking: 'Matchmaking',
-  GameflowPhase.checkedIntoTournament: 'CheckedIntoTournament',
-  GameflowPhase.readyCheck: 'ReadyCheck',
-  GameflowPhase.champSelect: 'ChampSelect',
-  GameflowPhase.gameStart: 'GameStart',
-  GameflowPhase.failedToLaunch: 'FailedToLaunch',
-  GameflowPhase.inProgress: 'InProgress',
-  GameflowPhase.reconnect: 'Reconnect',
-  GameflowPhase.waitingForStats: 'WaitingForStats',
-  GameflowPhase.preEndOfGame: 'PreEndOfGame',
-  GameflowPhase.endOfGame: 'EndOfGame',
-  GameflowPhase.terminatedInError: 'TerminatedInError ',
+  GameflowPhase.None: 'None',
+  GameflowPhase.Lobby: 'Lobby',
+  GameflowPhase.Matchmaking: 'Matchmaking',
+  GameflowPhase.CheckedIntoTournament: 'CheckedIntoTournament',
+  GameflowPhase.ReadyCheck: 'ReadyCheck',
+  GameflowPhase.ChampSelect: 'ChampSelect',
+  GameflowPhase.GameStart: 'GameStart',
+  GameflowPhase.FailedToLaunch: 'FailedToLaunch',
+  GameflowPhase.InProgress: 'InProgress',
+  GameflowPhase.Reconnect: 'Reconnect',
+  GameflowPhase.WaitingForStats: 'WaitingForStats',
+  GameflowPhase.PreEndOfGame: 'PreEndOfGame',
+  GameflowPhase.EndOfGame: 'EndOfGame',
+  GameflowPhase.TerminatedInError: 'TerminatedInError',
 };
