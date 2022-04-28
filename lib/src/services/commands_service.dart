@@ -1,11 +1,11 @@
 import 'package:larc_api_dart/model.dart';
-import 'package:larc_api_dart/src/i_lcc_api.dart';
+import 'package:larc_api_dart/src/i_larc_api.dart';
 import 'package:tuple/tuple.dart';
 
 /// Allows to send commands and wait for theirs execution.
 /// For proper work make sure that you enabled listening of events before executing any commands.
 class CommandsService {
-  ILccApi _api;
+  ILarcApi _api;
   CommandsService(this._api);
 
   Future<CommandResult> sendCommand(int controllerId, CommandName commandName) async {

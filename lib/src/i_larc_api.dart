@@ -7,7 +7,7 @@ import 'package:larc_api_dart/src/utils/base_json_serializable.dart';
 import 'package:larc_api_dart/src/utils/i_disposable.dart';
 
 /// Abstraction of the head API class.
-abstract class ILccApi implements IAsyncDisposable {
+abstract class ILarcApi implements IAsyncDisposable {
   /// API host.
   static const String apiHost = bool.fromEnvironment("dart.vm.product") ? "www.larc.ml/api" : "www.larc.ml/dev";
 

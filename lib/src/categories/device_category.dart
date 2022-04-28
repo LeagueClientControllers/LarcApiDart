@@ -17,7 +17,7 @@ import 'package:larc_api_dart/model.dart';
 class DeviceCategory implements IDeviceCategory {
   DeviceCategory(this._api);
 
-  final ILccApi _api;
+  final ILarcApi _api;
 
   @override
   Future<List<Device>> getDevices() async {

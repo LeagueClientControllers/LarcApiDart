@@ -24,7 +24,7 @@ class MockStorage implements IUserCredentialsStorage {
 Future main() async {
    MockStorage storage = MockStorage();
 
-  ILccApi api = LccApi();
+  ILarcApi api = LarcApi();
   await api.init(credentialsStorage: storage);
   await api.identity.login(
       "Rayms",

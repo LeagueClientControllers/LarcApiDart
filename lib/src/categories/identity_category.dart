@@ -17,7 +17,7 @@ import 'package:larc_api_dart/model.dart';
 class IdentityCategory implements IIdentityCategory {
   IdentityCategory(this._api);
 
-  final ILccApi _api;
+  final ILarcApi _api;
 
   @override
   Future<String> login(String login, String password, String deviceName, DeviceType deviceType) async {

@@ -17,7 +17,7 @@ import 'package:larc_api_dart/model.dart';
 class ClientCategory implements IClientCategory {
   ClientCategory(this._api);
 
-  final ILccApi _api;
+  final ILarcApi _api;
 
   @override
   Future setGameflowPhase(GameflowPhase? gameflowPhase, int? readyCheckStarted) async {
