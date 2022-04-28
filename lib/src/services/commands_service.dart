@@ -1,5 +1,5 @@
-import 'package:lcc_api_dart/model.dart';
-import 'package:lcc_api_dart/src/i_lcc_api.dart';
+import 'package:larc_api_dart/model.dart';
+import 'package:larc_api_dart/src/i_lcc_api.dart';
 import 'package:tuple/tuple.dart';
 
 /// Allows to send commands and wait for theirs execution.

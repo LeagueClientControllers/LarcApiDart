@@ -10,7 +10,7 @@
 import 'dart:async';
 
 import 'package:dart_library_generator/annotations.dart';
-import 'package:lcc_api_dart/model.dart';
+import 'package:larc_api_dart/model.dart';
 
 abstract class IDeviceCategory {
   /// Returns all the devices that are registered

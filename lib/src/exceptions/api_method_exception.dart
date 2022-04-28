@@ -1,4 +1,4 @@
-import 'package:lcc_api_dart/model.dart';
+import 'package:larc_api_dart/model.dart';
 
 /// The exception that is thrown when api method was executed with errors.
 class ApiMethodException implements Exception {

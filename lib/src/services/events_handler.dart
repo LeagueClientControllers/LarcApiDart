@@ -9,8 +9,8 @@
 
 import 'dart:async';
 
-import 'package:lcc_api_dart/model.dart';
-import 'package:lcc_api_dart/src/model/local/event_message.dart';
+import 'package:larc_api_dart/model.dart';
+import 'package:larc_api_dart/src/model/local/event_message.dart';
 
 class EventsHandler {
   final StreamController<ClientEvent> _clientEventController = StreamController<ClientEvent>.broadcast();

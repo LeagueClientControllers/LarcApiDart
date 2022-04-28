@@ -5,10 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "lcc_api_dart",
+            "name": "larc_api_dart",
             "request": "launch",
             "type": "dart",
-            "program": "example/lcc_api_dart_example.dart"
+            "program": "example/larc_api_dart_example.dart"
         }
     ]
 }

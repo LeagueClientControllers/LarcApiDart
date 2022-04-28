@@ -1,10 +1,10 @@
-import 'package:lcc_api_dart/categories.dart';
-import 'package:lcc_api_dart/model.dart';
-import 'package:lcc_api_dart/src/security/i_user_credentials_storage.dart';
-import 'package:lcc_api_dart/src/services/commands_service.dart';
-import 'package:lcc_api_dart/src/services/event_service.dart';
-import 'package:lcc_api_dart/src/utils/base_json_serializable.dart';
-import 'package:lcc_api_dart/src/utils/i_disposable.dart';
+import 'package:larc_api_dart/categories.dart';
+import 'package:larc_api_dart/model.dart';
+import 'package:larc_api_dart/src/security/i_user_credentials_storage.dart';
+import 'package:larc_api_dart/src/services/commands_service.dart';
+import 'package:larc_api_dart/src/services/event_service.dart';
+import 'package:larc_api_dart/src/utils/base_json_serializable.dart';
+import 'package:larc_api_dart/src/utils/i_disposable.dart';
 
 /// Abstraction of the head API class.
 abstract class ILccApi implements IAsyncDisposable {

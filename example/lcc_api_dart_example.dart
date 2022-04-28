@@ -1,6 +1,6 @@
-import 'package:lcc_api_dart/core.dart';
-import 'package:lcc_api_dart/model.dart';
-import 'package:lcc_api_dart/src/security/i_user_credentials_storage.dart';
+import 'package:larc_api_dart/core.dart';
+import 'package:larc_api_dart/model.dart';
+import 'package:larc_api_dart/src/security/i_user_credentials_storage.dart';
 
 class MockStorage implements IUserCredentialsStorage {
   String? _token;

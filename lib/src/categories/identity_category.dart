@@ -9,10 +9,10 @@
 
 import 'dart:async';
 
-import 'package:lcc_api_dart/categories.dart';
-import 'package:lcc_api_dart/core.dart';
-import 'package:lcc_api_dart/exceptions.dart';
-import 'package:lcc_api_dart/model.dart';
+import 'package:larc_api_dart/categories.dart';
+import 'package:larc_api_dart/core.dart';
+import 'package:larc_api_dart/exceptions.dart';
+import 'package:larc_api_dart/model.dart';
 
 class IdentityCategory implements IIdentityCategory {
   IdentityCategory(this._api);

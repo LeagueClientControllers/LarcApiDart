@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:lcc_api_dart/src/exceptions/events_provider_exception.dart';
-import 'package:lcc_api_dart/src/exceptions/user_not_authorized_exception.dart';
-import 'package:lcc_api_dart/src/i_lcc_api.dart';
-import 'package:lcc_api_dart/src/model/local/event_message.dart';
-import 'package:lcc_api_dart/src/services/events_handler.dart';
+import 'package:larc_api_dart/src/exceptions/events_provider_exception.dart';
+import 'package:larc_api_dart/src/exceptions/user_not_authorized_exception.dart';
+import 'package:larc_api_dart/src/i_lcc_api.dart';
+import 'package:larc_api_dart/src/model/local/event_message.dart';
+import 'package:larc_api_dart/src/services/events_handler.dart';
 import 'package:web_socket_channel/io.dart';
 
 import '../security/api_credentials.dart';

@@ -1,4 +1,4 @@
-library lcc_api_dart;
+library larc_api_dart;
 
 export 'core.dart';
 export 'categories.dart';

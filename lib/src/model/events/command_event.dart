@@ -9,8 +9,8 @@
 
 import 'package:decimal/decimal.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:lcc_api_dart/model.dart';
-import 'package:lcc_api_dart/src/utils/base_json_serializable.dart';
+import 'package:larc_api_dart/model.dart';
+import 'package:larc_api_dart/src/utils/base_json_serializable.dart';
 
 part 'command_event.g.dart';
 
