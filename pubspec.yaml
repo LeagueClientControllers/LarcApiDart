@@ -15,9 +15,11 @@ dependencies:
   http: ^0.13.4
   decimal: ^2.2.0
   web_socket_channel: ^2.1.0
-  dart_library_generator: 
-    path: ../LibraryGenerators/DartLibraryGenerator/
-#   path: ^1.8.0
+  dart_library_generator:
+    git:
+      url: "https://github.com/LeagueClientControllers/LibraryGenerators"
+      ref: develop
+      path: DartLibraryGenerator/
 
 dev_dependencies:
   json_serializable: ^6.1.3
