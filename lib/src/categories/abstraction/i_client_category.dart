@@ -27,4 +27,11 @@ abstract class IClientCategory {
   /// [commandArgs] - Arguments of the command;
   @DeviceOnly()
   Future<int> sendCommand(int controllerId, CommandName commandName, SomeParametrizedCommandArgs? commandArgs);
+
+  /// Sets result of the command after execution.
+  ///
+  /// [commandId] - Id of the command to set result of;
+  /// [result] - Result of the command;
+  @ControllerOnly()
+  Future setCommandResult(int commandId, CommandResult result);
 }

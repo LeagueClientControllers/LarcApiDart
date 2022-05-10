@@ -27,5 +27,5 @@ abstract class IIdentityCategory {
 
   /// Returns a fresh token with reset expiration date.
   /// based on data from current token.
-  Future<String> refreshAccessToken(String test);
+  Future<String> refreshAccessToken();
 }
