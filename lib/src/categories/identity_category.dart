@@ -51,7 +51,6 @@ class IdentityCategory implements IIdentityCategory {
   }
 
   @override
-  // TODO: Needs revision due to a new method signature
   Future<String> refreshAccessToken() async {
     final AccessTokenResponse response = await _api.executeWithResponse(
         r'identity/refreshAccessToken', (Map<String, dynamic> json) => AccessTokenResponse.fromJson(json),

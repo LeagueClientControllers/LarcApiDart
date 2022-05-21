@@ -39,5 +39,6 @@ const _$MethodErrorEnumMap = {
   MethodError.MissingMethodParameters: 'MissingMethodParametersError',
   MethodError.InvalidCommandParameters: 'InvalidCommandParametersError',
   MethodError.InvalidMethodParameter: 'InvalidMethodParameterError',
+  MethodError.InvalidOperation: 'InvalidOperationError',
   MethodError.ListenerIsAlreadyRegistered: 'ListenerIsAlreadyRegisteredError',
 };

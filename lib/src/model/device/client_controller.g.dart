@@ -11,10 +11,9 @@ ClientController _$ClientControllerFromJson(Map<String, dynamic> json) =>
       json['id'] as int,
       json['name'] as String,
       json['isOnline'] as bool,
-      $enumDecodeNullable(_$GameflowPhaseEnumMap, json['gameflowPhase']),
-      json['readyCheckStarted'] == null
+      json['client'] == null
           ? null
-          : DateTime.parse(json['readyCheckStarted'] as String),
+          : LeagueClient.fromJson(json['client'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ClientControllerToJson(ClientController instance) =>
@@ -22,23 +21,5 @@ Map<String, dynamic> _$ClientControllerToJson(ClientController instance) =>
       'id': instance.id,
       'name': instance.name,
       'isOnline': instance.isOnline,
-      'gameflowPhase': _$GameflowPhaseEnumMap[instance.gameflowPhase],
-      'readyCheckStarted': instance.readyCheckStarted?.toIso8601String(),
+      'client': instance.client,
     };
-
-const _$GameflowPhaseEnumMap = {
-  GameflowPhase.None: 'None',
-  GameflowPhase.Lobby: 'Lobby',
-  GameflowPhase.Matchmaking: 'Matchmaking',
-  GameflowPhase.CheckedIntoTournament: 'CheckedIntoTournament',
-  GameflowPhase.ReadyCheck: 'ReadyCheck',
-  GameflowPhase.ChampSelect: 'ChampSelect',
-  GameflowPhase.GameStart: 'GameStart',
-  GameflowPhase.FailedToLaunch: 'FailedToLaunch',
-  GameflowPhase.InProgress: 'InProgress',
-  GameflowPhase.Reconnect: 'Reconnect',
-  GameflowPhase.WaitingForStats: 'WaitingForStats',
-  GameflowPhase.PreEndOfGame: 'PreEndOfGame',
-  GameflowPhase.EndOfGame: 'EndOfGame',
-  GameflowPhase.TerminatedInError: 'TerminatedInError',
-};

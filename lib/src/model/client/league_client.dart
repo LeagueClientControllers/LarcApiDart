@@ -13,24 +13,29 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:larc_api_dart/model.dart';
 import 'package:larc_api_dart/src/utils/base_json_serializable.dart';
 
-part 'set_gameflow_phase_parameters.g.dart';
+part 'league_client.g.dart';
 
-/// Parameters of the /client/setGameflowPhase method.
+/// Represents a «League of Legends» client
+/// that is controlled by a client controller.
 @JsonSerializable()
-class SetGameflowPhaseParameters implements BaseJsonSerializable<SetGameflowPhaseParameters> {
-  SetGameflowPhaseParameters([this.gameflowPhase, this.readyCheckStarted]);
+class LeagueClient implements BaseJsonSerializable<LeagueClient> {
+  LeagueClient([this.gameflowPhase, this.readyCheckStarted, this.pick]);
 
   @override
-  factory SetGameflowPhaseParameters.fromJson(Map<String, dynamic> json) => _$SetGameflowPhaseParametersFromJson(json);
+  factory LeagueClient.fromJson(Map<String, dynamic> json) => _$LeagueClientFromJson(json);
 
-  /// Current league client game flow phase to set.
+  /// Gameflow phase of the client.
   @JsonKey(name: "gameflowPhase")
   GameflowPhase? gameflowPhase;
 
-  /// If game flow phase is ready check, this property determines timestamp when ready check was started in unix format.
+  /// Time when ready check was initiated.
   @JsonKey(name: "readyCheckStarted", fromJson: unixTimestampToDateTimeNullable, toJson: dateTimeToUnixTimestampNullable)
   DateTime? readyCheckStarted;
 
+  /// Describes champ select phase.
+  @JsonKey(name: "pick")
+  PickStage? pick;
+
   @override
-  Map<String, dynamic> toJson() => _$SetGameflowPhaseParametersToJson(this);
+  Map<String, dynamic> toJson() => _$LeagueClientToJson(this);
 }

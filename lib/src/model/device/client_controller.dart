@@ -7,6 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+import 'package:dart_library_generator/utilities.dart';
 import 'package:decimal/decimal.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:larc_api_dart/model.dart';
@@ -18,7 +19,7 @@ part 'client_controller.g.dart';
 /// if it's computer that controls league of legends client
 @JsonSerializable()
 class ClientController implements BaseJsonSerializable<ClientController> {
-  ClientController(this.id, this.name, this.isOnline, [this.gameflowPhase, this.readyCheckStarted]);
+  ClientController(this.id, this.name, this.isOnline, [this.client]);
 
   @override
   factory ClientController.fromJson(Map<String, dynamic> json) => _$ClientControllerFromJson(json);
@@ -35,13 +36,9 @@ class ClientController implements BaseJsonSerializable<ClientController> {
   @JsonKey(name: "isOnline")
   bool isOnline;
 
-  /// Gameflow phase of the league client that is controlled by this controller.
-  @JsonKey(name: "gameflowPhase")
-  GameflowPhase? gameflowPhase;
-
-  /// Time when ready check was initiated.
-  @JsonKey(name: "readyCheckStarted")
-  DateTime? readyCheckStarted;
+  ///
+  @JsonKey(name: "client")
+  LeagueClient? client;
 
   @override
   Map<String, dynamic> toJson() => _$ClientControllerToJson(this);

@@ -13,14 +13,65 @@ import 'package:dart_library_generator/utilities.dart';
 import 'package:larc_api_dart/model.dart';
 
 abstract class IClientCategory {
+  /// Reports that the «League of Legends» client
+  /// on controller's machine has been opened.
+  @ControllerOnly()
+  Future reportClientOpened();
+
+  /// Reports that the «League of Legends» client
+  /// on controller's machine has been closed.
+  @ControllerOnly()
+  Future reportClientClosed();
+
   /// Sets current game flow phase of the league client.
   ///
   /// [gameflowPhase] - Current league client game flow phase to set;
   /// [readyCheckStarted] - If game flow phase is ready check, this property determines timestamp when ready check was started in unix format;
   @ControllerOnly()
-  Future setGameflowPhase(GameflowPhase? gameflowPhase, int? readyCheckStarted);
+  Future setGameflowPhase(GameflowPhase? gameflowPhase, DateTime? readyCheckStarted);
 
-  /// Sends command to a client controller that is specified in the parameters to execute.
+  /// Reports that champ select phase
+  /// has been started in the «League of Legends» client.
+  ///
+  /// [userPosition] - Index of the user in allies array;
+  /// [enemiesCount] - Count of matched enemies;
+  /// [alliesRoles] - Array of matched allies' roles
+  @ControllerOnly()
+  Future reportChampSelectStarted(int userPosition, int enemiesCount, List<Role> alliesRoles);
+
+  ///
+  ///
+  /// [requestedAt] - When this action was requested by league client;
+  /// [isAllyAction] - Is action is prescribed for an ally or an opponent;
+  /// [firstActorPosition] -
+  ///	 Index of the allies or opponents array
+  ///	 that specifies first summoner of the action; [0;;4]
+  ///
+  /// [actorsCount] - How many summoners participates in the action; [1;;5]
+  /// [type] - Type of the action;
+  @ControllerOnly()
+  Future reportActionRequested(DateTime requestedAt, bool isAllyAction, int firstActorPosition, int actorsCount, ActionType type);
+
+  ///
+  ///
+  /// [completed] - Is champion action completed or the champion is only hovered;
+  /// [championId] - ID of the picked or banned champion;
+  /// [actorPosition] - Position of the actor in ally or enemy team; [0;;4]
+  @ControllerOnly()
+  Future reportActionChanged(bool completed, int championId, int actorPosition);
+
+  ///
+  ///
+  /// [playerPosition] - Position of player whose skin has been changed in allies array; [0;;4]
+  /// [skinId] - New skin id;
+  @ControllerOnly()
+  Future reportSkinChanged(int playerPosition, int skinId);
+
+  ///
+  @ControllerOnly()
+  Future reportChampSelectEnded();
+
+  /// Reports that pick stage in champ select phase is started.
   ///
   /// [controllerId] - Determine which controller should execute this command;
   /// [commandName] - Command that should be sent to the client controller;

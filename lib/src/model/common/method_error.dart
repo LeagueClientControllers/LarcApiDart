@@ -49,6 +49,10 @@ enum MethodError {
   InvalidMethodParameter,
 
   ///
+  @_i1.JsonValue("InvalidOperationError")
+  InvalidOperation,
+
+  ///
   @_i1.JsonValue("ListenerIsAlreadyRegisteredError")
   ListenerIsAlreadyRegistered
 }

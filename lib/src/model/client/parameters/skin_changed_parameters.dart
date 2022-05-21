@@ -13,20 +13,24 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:larc_api_dart/model.dart';
 import 'package:larc_api_dart/src/utils/base_json_serializable.dart';
 
-part 'controller_response.g.dart';
+part 'skin_changed_parameters.g.dart';
 
 ///
 @JsonSerializable()
-class ControllerResponse extends ApiResponse {
-  ControllerResponse() : super();
+class SkinChangedParameters implements BaseJsonSerializable<SkinChangedParameters> {
+  SkinChangedParameters(this.playerPosition, this.skinId);
 
   @override
-  factory ControllerResponse.fromJson(Map<String, dynamic> json) => _$ControllerResponseFromJson(json);
+  factory SkinChangedParameters.fromJson(Map<String, dynamic> json) => _$SkinChangedParametersFromJson(json);
 
-  ///
-  @JsonKey(name: "controller")
-  late ClientController controller;
+  /// Position of player whose skin has been changed in allies array. [0..4]
+  @JsonKey(name: "playerPosition")
+  int playerPosition;
+
+  /// New skin id.
+  @JsonKey(name: "skinId")
+  int skinId;
 
   @override
-  Map<String, dynamic> toJson() => _$ControllerResponseToJson(this);
+  Map<String, dynamic> toJson() => _$SkinChangedParametersToJson(this);
 }

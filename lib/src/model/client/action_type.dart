@@ -10,17 +10,14 @@
 import 'package:json_annotation/json_annotation.dart' as _i1;
 import 'package:json_annotation/json_annotation.dart';
 
-/// Indicates command that is sended to client controller to be executed by it.
-enum CommandName {
-  /// Client controller should decline league match.
-  @_i1.JsonValue("DeclineMatch")
-  DeclineMatch,
+/// Indicates type of action that is available
+/// for an ally of an opponent during champ select phase.
+enum ActionType {
+  ///
+  @_i1.JsonValue("Pick")
+  Pick,
 
-  /// Client controller should accept league match.
-  @_i1.JsonValue("AcceptMatch")
-  AcceptMatch,
-
-  /// Test
-  @_i1.JsonValue("SomeParametrized")
-  SomeParametrized
+  ///
+  @_i1.JsonValue("Ban")
+  Ban
 }

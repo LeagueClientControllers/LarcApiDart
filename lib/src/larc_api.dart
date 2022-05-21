@@ -205,9 +205,7 @@ class LarcApi extends ILarcApi {
             .post(url, headers: Map.from(_requestHeaders)..["Authorization"] = "Bearer $_accessToken", body: payload)
             .timeout(new Duration(seconds: 5));
       } else {
-        response = await http
-            .post(url, headers: _requestHeaders, body: payload)
-            .timeout(new Duration(seconds: 5));
+        response = await http.post(url, headers: _requestHeaders, body: payload).timeout(new Duration(seconds: 5));
       }
     } on SocketException {
       throw NetworkUnreachableException(methodPath);

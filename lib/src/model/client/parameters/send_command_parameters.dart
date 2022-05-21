@@ -7,6 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+import 'package:dart_library_generator/utilities.dart';
 import 'package:decimal/decimal.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:larc_api_dart/model.dart';
@@ -14,7 +15,7 @@ import 'package:larc_api_dart/src/utils/base_json_serializable.dart';
 
 part 'send_command_parameters.g.dart';
 
-/// Parameters of /client/sendCommand method.
+/// Parameters of the /client/sendCommand method.
 @JsonSerializable()
 class SendCommandParameters implements BaseJsonSerializable<SendCommandParameters> {
   SendCommandParameters(this.controllerId, this.commandName, [this.commandArgs]);

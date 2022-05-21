@@ -7,16 +7,25 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+export 'src/model/client/action_type.dart';
 export 'src/model/client/commands/command.dart';
 export 'src/model/client/commands/command_error.dart';
 export 'src/model/client/commands/command_name.dart';
 export 'src/model/client/commands/command_result.dart';
 export 'src/model/client/commands/some_parametrized_command_args.dart';
 export 'src/model/client/gameflow_phase.dart';
+export 'src/model/client/league_client.dart';
+export 'src/model/client/parameters/action_changed_parameters.dart';
+export 'src/model/client/parameters/action_requested_parameters.dart';
+export 'src/model/client/parameters/champ_select_parameters.dart';
 export 'src/model/client/parameters/send_command_parameters.dart';
 export 'src/model/client/parameters/set_command_result_parameters.dart';
 export 'src/model/client/parameters/set_gameflow_phase_parameters.dart';
+export 'src/model/client/parameters/skin_changed_parameters.dart';
+export 'src/model/client/pick_stage.dart';
 export 'src/model/client/responses/command_response.dart';
+export 'src/model/client/role.dart';
+export 'src/model/client/summoner.dart';
 export 'src/model/common/api_response.dart';
 export 'src/model/common/execution_result.dart';
 export 'src/model/common/jwt_payload.dart';
