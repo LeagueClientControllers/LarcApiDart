@@ -5,7 +5,7 @@ class ApiMethodException implements Exception {
   /// Path to the API method that thrown the error.
   final String methodPath;
 
-  /// Error occured during execution of the method.
+  /// Error occurred during execution of the method.
   final MethodError error;
 
   /// Message of the error occurred during execution of the method.

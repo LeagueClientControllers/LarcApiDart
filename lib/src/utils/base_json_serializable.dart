@@ -6,6 +6,6 @@ abstract class BaseJsonSerializable<T extends BaseJsonSerializable<T>> {
   /// Converts output of json decoded map to instance.
   BaseJsonSerializable.fromJson(Map<String, dynamic> json);
 
-  /// Converts instance to json encodable object.
+  /// Converts instance to map that will be encoded into json object.
   Map<String, dynamic> toJson();
 }

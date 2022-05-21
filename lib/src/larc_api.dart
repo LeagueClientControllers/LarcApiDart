@@ -203,13 +203,13 @@ class LarcApi extends ILarcApi {
 
         response = await http
             .post(url, headers: Map.from(_requestHeaders)..["Authorization"] = "Bearer $_accessToken", body: payload)
-            .timeout(Duration(seconds: methodPath.contains("longpoll/getEvents") ? 40 : 5));
+            .timeout(new Duration(seconds: 5));
       } else {
         response = await http
             .post(url, headers: _requestHeaders, body: payload)
-            .timeout(Duration(seconds: methodPath.contains("longpoll/getEvents") ? 40 : 5));
+            .timeout(new Duration(seconds: 5));
       }
-    } on SocketException catch (e) {
+    } on SocketException {
       throw NetworkUnreachableException(methodPath);
     } on http.ClientException {
       throw NetworkUnreachableException(methodPath);
@@ -234,12 +234,12 @@ class LarcApi extends ILarcApi {
 
         response = await http
             .post(url, headers: Map.from(_requestHeaders)..["Authorization"] = "Bearer $_accessToken")
-            .timeout(Duration(seconds: methodPath.contains("longpoll/getEvents") ? 40 : 5));
+            .timeout(new Duration(seconds: 5));
       } else {
         response =
             await http.post(url, headers: _requestHeaders).timeout(Duration(seconds: methodPath.contains("longpoll/getEvents") ? 40 : 5));
       }
-    } on SocketException catch (e) {
+    } on SocketException {
       throw NetworkUnreachableException(methodPath);
     } on http.ClientException {
       throw NetworkUnreachableException(methodPath);

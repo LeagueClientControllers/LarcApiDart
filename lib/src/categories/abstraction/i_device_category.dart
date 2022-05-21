@@ -9,7 +9,7 @@
 
 import 'dart:async';
 
-import 'package:dart_library_generator/annotations.dart';
+import 'package:dart_library_generator/utilities.dart';
 import 'package:larc_api_dart/model.dart';
 
 abstract class IDeviceCategory {

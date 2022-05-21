@@ -28,7 +28,7 @@ Future main() async {
   await api.init(credentialsStorage: storage);
   await api.identity.login(
       "Rayms",
-      "12345", //9Ty69pAsF+z7Ka@6e4ebx&hZb@=VQ&**vJK\$gq%eAcwbp82vjpjusYm-4C!7BFCHNe7vD_fBP2urWQEVTg8VFu@HtTg8a6fT#FH!^AFqzFs@KLd-qvK&k5Ue\$Y#Aj3BtMU7EK_d*XRzAd3mhzJJKm&yscFkuddqArjByHtJqd+dWJbCdfJ8VuNQKpV-ZAL9v-5RL&YH=Y+%b\$y+hrhg!%DKUJ5ggR-sfxd7!*g%K8*@MB7rMNVr#t?P^Z6jHN*Rh
+      "12345",
       "DartApiTestPhone",
       DeviceType.Phone);
 

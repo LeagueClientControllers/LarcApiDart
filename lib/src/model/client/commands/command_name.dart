@@ -10,7 +10,7 @@
 import 'package:json_annotation/json_annotation.dart' as _i1;
 import 'package:json_annotation/json_annotation.dart';
 
-/// Indicates command that is sended to client controller to be executed by it.
+/// Indicates command that is sent to client controller to be executed by it.
 enum CommandName {
   /// Client controller should decline league match.
   @_i1.JsonValue("DeclineMatch")
