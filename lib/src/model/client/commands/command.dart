@@ -33,7 +33,7 @@ class Command implements BaseJsonSerializable<Command> {
 
   /// Arguments of the command.
   @JsonKey(name: "args")
-  SomeParametrizedCommandArgs? args;
+  ChampionCommandArgs? args;
 
   @override
   Map<String, dynamic> toJson() => _$CommandToJson(this);

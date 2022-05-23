@@ -33,7 +33,7 @@ class SendCommandParameters implements BaseJsonSerializable<SendCommandParameter
 
   /// Arguments of the command.
   @JsonKey(name: "commandArgs")
-  SomeParametrizedCommandArgs? commandArgs;
+  ChampionCommandArgs? commandArgs;
 
   @override
   Map<String, dynamic> toJson() => _$SendCommandParametersToJson(this);

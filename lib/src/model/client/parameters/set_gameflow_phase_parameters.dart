@@ -18,14 +18,14 @@ part 'set_gameflow_phase_parameters.g.dart';
 /// Parameters of the /client/setGameflowPhase method.
 @JsonSerializable()
 class SetGameflowPhaseParameters implements BaseJsonSerializable<SetGameflowPhaseParameters> {
-  SetGameflowPhaseParameters([this.gameflowPhase, this.readyCheckStarted]);
+  SetGameflowPhaseParameters(this.gameflowPhase, [this.readyCheckStarted]);
 
   @override
   factory SetGameflowPhaseParameters.fromJson(Map<String, dynamic> json) => _$SetGameflowPhaseParametersFromJson(json);
 
   /// Current league client game flow phase to set.
   @JsonKey(name: "gameflowPhase")
-  GameflowPhase? gameflowPhase;
+  GameflowPhase gameflowPhase;
 
   /// If game flow phase is ready check, this property determines timestamp when ready check was started in unix format.
   @JsonKey(name: "readyCheckStarted", fromJson: unixTimestampToDateTimeNullable, toJson: dateTimeToUnixTimestampNullable)

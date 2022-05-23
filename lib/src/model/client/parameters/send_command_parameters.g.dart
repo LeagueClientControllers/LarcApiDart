@@ -13,7 +13,7 @@ SendCommandParameters _$SendCommandParametersFromJson(
       $enumDecode(_$CommandNameEnumMap, json['commandName']),
       json['commandArgs'] == null
           ? null
-          : SomeParametrizedCommandArgs.fromJson(
+          : ChampionCommandArgs.fromJson(
               json['commandArgs'] as Map<String, dynamic>),
     );
 
@@ -28,5 +28,6 @@ Map<String, dynamic> _$SendCommandParametersToJson(
 const _$CommandNameEnumMap = {
   CommandName.DeclineMatch: 'DeclineMatch',
   CommandName.AcceptMatch: 'AcceptMatch',
-  CommandName.SomeParametrized: 'SomeParametrized',
+  CommandName.HoverChampion: 'HoverChampion',
+  CommandName.CompleteAction: 'CompleteAction',
 };

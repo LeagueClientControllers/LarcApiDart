@@ -8,11 +8,11 @@
 //------------------------------------------------------------------------------
 
 export 'src/model/client/action_type.dart';
+export 'src/model/client/commands/champion_command_args.dart';
 export 'src/model/client/commands/command.dart';
 export 'src/model/client/commands/command_error.dart';
 export 'src/model/client/commands/command_name.dart';
 export 'src/model/client/commands/command_result.dart';
-export 'src/model/client/commands/some_parametrized_command_args.dart';
 export 'src/model/client/gameflow_phase.dart';
 export 'src/model/client/league_client.dart';
 export 'src/model/client/parameters/action_changed_parameters.dart';
@@ -33,6 +33,7 @@ export 'src/model/common/method_access_policy.dart';
 export 'src/model/common/method_error.dart';
 export 'src/model/common/parameters/change_name_parameters.dart';
 export 'src/model/common/parameters/get_by_id_parameters.dart';
+export 'src/model/common/range.dart';
 export 'src/model/device/client_controller.dart';
 export 'src/model/device/device.dart';
 export 'src/model/device/device_type.dart';
@@ -47,6 +48,8 @@ export 'src/model/events/command_event_type.dart';
 export 'src/model/events/device_event.dart';
 export 'src/model/events/device_event_type.dart';
 export 'src/model/events/event_type.dart';
+export 'src/model/events/pick_event.dart';
+export 'src/model/events/pick_event_type.dart';
 export 'src/model/identity/parameters/login_parameters.dart';
 export 'src/model/identity/profile_info.dart';
 export 'src/model/identity/responses/access_token_response.dart';

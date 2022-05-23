@@ -21,6 +21,10 @@ enum EventType {
   @_i1.JsonValue("Client")
   Client,
 
+  /// Event message should be deserialized as [PickEvent]
+  @_i1.JsonValue("Pick")
+  Pick,
+
   /// Event message should be deserialized as [CommandEvent]
   @_i1.JsonValue("Command")
   Command

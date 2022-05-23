@@ -22,5 +22,7 @@ Map<String, dynamic> _$ClientEventToJson(ClientEvent instance) =>
     };
 
 const _$ClientEventTypeEnumMap = {
+  ClientEventType.ClientOpened: 'ClientOpened',
+  ClientEventType.ClientClosed: 'ClientClosed',
   ClientEventType.GameflowPhaseChanged: 'GameflowPhaseChanged',
 };

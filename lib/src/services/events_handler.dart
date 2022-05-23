@@ -19,13 +19,17 @@ class EventsHandler {
 
   final StreamController<DeviceEvent> _deviceEventController = StreamController<DeviceEvent>.broadcast();
 
+  final StreamController<PickEvent> _pickEventController = StreamController<PickEvent>.broadcast();
+
   Stream<ClientEvent> get clientEvent => _clientEventController.stream;
   Stream<CommandEvent> get commandEvent => _commandEventController.stream;
   Stream<DeviceEvent> get deviceEvent => _deviceEventController.stream;
+  Stream<PickEvent> get pickEvent => _pickEventController.stream;
   Future dispose() async {
     await _clientEventController.close();
     await _commandEventController.close();
     await _deviceEventController.close();
+    await _pickEventController.close();
   }
 
   handleMessage(EventMessage message) {
@@ -41,6 +45,11 @@ class EventsHandler {
 
     if (message.eventType == EventType.Device) {
       _deviceEventController.add(DeviceEvent.fromJson(message.event));
+      return;
+    }
+
+    if (message.eventType == EventType.Pick) {
+      _pickEventController.add(PickEvent.fromJson(message.event));
       return;
     }
   }

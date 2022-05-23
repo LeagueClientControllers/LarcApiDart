@@ -13,20 +13,20 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:larc_api_dart/model.dart';
 import 'package:larc_api_dart/src/utils/base_json_serializable.dart';
 
-part 'some_parametrized_command_args.g.dart';
+part 'champion_command_args.g.dart';
 
-///
+/// Describes args for a command that requires a champion ID.
 @JsonSerializable()
-class SomeParametrizedCommandArgs implements BaseJsonSerializable<SomeParametrizedCommandArgs> {
-  SomeParametrizedCommandArgs(this.commandParam);
+class ChampionCommandArgs implements BaseJsonSerializable<ChampionCommandArgs> {
+  ChampionCommandArgs(this.championId);
 
   @override
-  factory SomeParametrizedCommandArgs.fromJson(Map<String, dynamic> json) => _$SomeParametrizedCommandArgsFromJson(json);
+  factory ChampionCommandArgs.fromJson(Map<String, dynamic> json) => _$ChampionCommandArgsFromJson(json);
 
-  ///
-  @JsonKey(name: "commandParam")
-  String commandParam;
+  /// ID of a champion that should be hovered upon, picked or banned.
+  @JsonKey(name: "championId")
+  int championId;
 
   @override
-  Map<String, dynamic> toJson() => _$SomeParametrizedCommandArgsToJson(this);
+  Map<String, dynamic> toJson() => _$ChampionCommandArgsToJson(this);
 }

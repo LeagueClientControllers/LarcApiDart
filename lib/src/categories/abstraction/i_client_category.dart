@@ -28,7 +28,7 @@ abstract class IClientCategory {
   /// [gameflowPhase] - Current league client game flow phase to set;
   /// [readyCheckStarted] - If game flow phase is ready check, this property determines timestamp when ready check was started in unix format;
   @ControllerOnly()
-  Future setGameflowPhase(GameflowPhase? gameflowPhase, DateTime? readyCheckStarted);
+  Future setGameflowPhase(GameflowPhase gameflowPhase, DateTime? readyCheckStarted);
 
   /// Reports that champ select phase
   /// has been started in the «League of Legends» client.
@@ -43,20 +43,16 @@ abstract class IClientCategory {
   ///
   /// [requestedAt] - When this action was requested by league client;
   /// [isAllyAction] - Is action is prescribed for an ally or an opponent;
-  /// [firstActorPosition] -
-  ///	 Index of the allies or opponents array
-  ///	 that specifies first summoner of the action; [0;;4]
-  ///
-  /// [actorsCount] - How many summoners participates in the action; [1;;5]
+  /// [actorsRange] - Specifies range of actors the action was requested from ([0;;4]);
   /// [type] - Type of the action;
   @ControllerOnly()
-  Future reportActionRequested(DateTime requestedAt, bool isAllyAction, int firstActorPosition, int actorsCount, ActionType type);
+  Future reportActionRequested(DateTime requestedAt, bool isAllyAction, ValueRange actorsRange, ActionType type);
 
   ///
   ///
   /// [completed] - Is champion action completed or the champion is only hovered;
   /// [championId] - ID of the picked or banned champion;
-  /// [actorPosition] - Position of the actor in ally or enemy team; [0;;4]
+  /// [actorPosition] - Position of the actor in ally or enemy team ([0;;4]);
   @ControllerOnly()
   Future reportActionChanged(bool completed, int championId, int actorPosition);
 
@@ -77,7 +73,7 @@ abstract class IClientCategory {
   /// [commandName] - Command that should be sent to the client controller;
   /// [commandArgs] - Arguments of the command;
   @DeviceOnly()
-  Future<int> sendCommand(int controllerId, CommandName commandName, SomeParametrizedCommandArgs? commandArgs);
+  Future<int> sendCommand(int controllerId, CommandName commandName, ChampionCommandArgs? commandArgs);
 
   /// Sets result of the command after execution.
   ///

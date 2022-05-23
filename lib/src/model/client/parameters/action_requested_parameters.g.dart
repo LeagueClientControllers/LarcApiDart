@@ -11,8 +11,7 @@ ActionRequestedParameters _$ActionRequestedParametersFromJson(
     ActionRequestedParameters(
       unixTimestampToDateTime(json['requestedAt'] as int),
       json['isAllyAction'] as bool,
-      json['firstActorPosition'] as int,
-      json['actorsCount'] as int,
+      ValueRange.fromJson(json['actorsRange'] as Map<String, dynamic>),
       $enumDecode(_$ActionTypeEnumMap, json['type']),
     );
 
@@ -21,8 +20,7 @@ Map<String, dynamic> _$ActionRequestedParametersToJson(
     <String, dynamic>{
       'requestedAt': dateTimeToUnixTimestamp(instance.requestedAt),
       'isAllyAction': instance.isAllyAction,
-      'firstActorPosition': instance.firstActorPosition,
-      'actorsCount': instance.actorsCount,
+      'actorsRange': instance.actorsRange,
       'type': _$ActionTypeEnumMap[instance.type],
     };
 

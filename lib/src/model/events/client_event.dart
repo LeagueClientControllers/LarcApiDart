@@ -15,7 +15,7 @@ import 'package:larc_api_dart/src/utils/base_json_serializable.dart';
 
 part 'client_event.g.dart';
 
-/// Describes the event related to the client.
+/// Describes an event related to the client.
 @JsonSerializable()
 class ClientEvent implements BaseJsonSerializable<ClientEvent> {
   ClientEvent(this.type, this.controllerId, [this.changes]);

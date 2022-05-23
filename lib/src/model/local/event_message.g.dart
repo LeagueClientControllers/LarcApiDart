@@ -20,5 +20,6 @@ Map<String, dynamic> _$EventMessageToJson(EventMessage instance) =>
 const _$EventTypeEnumMap = {
   EventType.Device: 'Device',
   EventType.Client: 'Client',
+  EventType.Pick: 'Pick',
   EventType.Command: 'Command',
 };

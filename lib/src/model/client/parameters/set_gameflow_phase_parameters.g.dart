@@ -9,7 +9,7 @@ part of 'set_gameflow_phase_parameters.dart';
 SetGameflowPhaseParameters _$SetGameflowPhaseParametersFromJson(
         Map<String, dynamic> json) =>
     SetGameflowPhaseParameters(
-      $enumDecodeNullable(_$GameflowPhaseEnumMap, json['gameflowPhase']),
+      $enumDecode(_$GameflowPhaseEnumMap, json['gameflowPhase']),
       unixTimestampToDateTimeNullable(json['readyCheckStarted'] as int?),
     );
 

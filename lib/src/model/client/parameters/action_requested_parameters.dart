@@ -18,7 +18,7 @@ part 'action_requested_parameters.g.dart';
 ///
 @JsonSerializable()
 class ActionRequestedParameters implements BaseJsonSerializable<ActionRequestedParameters> {
-  ActionRequestedParameters(this.requestedAt, this.isAllyAction, this.firstActorPosition, this.actorsCount, this.type);
+  ActionRequestedParameters(this.requestedAt, this.isAllyAction, this.actorsRange, this.type);
 
   @override
   factory ActionRequestedParameters.fromJson(Map<String, dynamic> json) => _$ActionRequestedParametersFromJson(json);
@@ -31,14 +31,9 @@ class ActionRequestedParameters implements BaseJsonSerializable<ActionRequestedP
   @JsonKey(name: "isAllyAction")
   bool isAllyAction;
 
-  /// Index of the allies or opponents array
-  /// that specifies first summoner of the action. [0..4]
-  @JsonKey(name: "firstActorPosition")
-  int firstActorPosition;
-
-  /// How many summoners participates in the action. [1..5]
-  @JsonKey(name: "actorsCount")
-  int actorsCount;
+  /// Specifies range of actors the action was requested from ([0..4]).
+  @JsonKey(name: "actorsRange")
+  ValueRange actorsRange;
 
   /// Type of the action.
   @JsonKey(name: "type")

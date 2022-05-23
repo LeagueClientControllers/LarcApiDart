@@ -31,7 +31,7 @@ class ActionChangedParameters implements BaseJsonSerializable<ActionChangedParam
   @JsonKey(name: "championId")
   int championId;
 
-  /// Position of the actor in ally or enemy team. [0..4]
+  /// Position of the actor in ally or enemy team ([0..4]).
   @JsonKey(name: "actorPosition")
   int actorPosition;
 

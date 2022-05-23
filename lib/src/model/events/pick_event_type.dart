@@ -10,17 +10,25 @@
 import 'package:json_annotation/json_annotation.dart' as _i1;
 import 'package:json_annotation/json_annotation.dart';
 
-/// Type of the client event.
-enum ClientEventType {
-  /// Client was opened. Gameflow phase changed to {@see GameflowPhase.None}.
-  @_i1.JsonValue("ClientOpened")
-  ClientOpened,
+/// Identifies exactly what was happened in the champ select phase.
+enum PickEventType {
+  ///
+  @_i1.JsonValue("SkinChanged")
+  SkinChanged,
 
-  /// Client was closed.
-  @_i1.JsonValue("ClientClosed")
-  ClientClosed,
+  ///
+  @_i1.JsonValue("ActionChanged")
+  ActionChanged,
 
-  /// Client game glow phase was changed.
-  @_i1.JsonValue("GameflowPhaseChanged")
-  GameflowPhaseChanged
+  ///
+  @_i1.JsonValue("ActionRequested")
+  ActionRequested,
+
+  ///
+  @_i1.JsonValue("ChampSelectEnded")
+  ChampSelectEnded,
+
+  ///
+  @_i1.JsonValue("ChampSelectStarted")
+  ChampSelectStarted
 }

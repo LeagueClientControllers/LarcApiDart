@@ -11,8 +11,7 @@ Command _$CommandFromJson(Map<String, dynamic> json) => Command(
       $enumDecode(_$CommandNameEnumMap, json['name']),
       json['args'] == null
           ? null
-          : SomeParametrizedCommandArgs.fromJson(
-              json['args'] as Map<String, dynamic>),
+          : ChampionCommandArgs.fromJson(json['args'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$CommandToJson(Command instance) => <String, dynamic>{
@@ -24,5 +23,6 @@ Map<String, dynamic> _$CommandToJson(Command instance) => <String, dynamic>{
 const _$CommandNameEnumMap = {
   CommandName.DeclineMatch: 'DeclineMatch',
   CommandName.AcceptMatch: 'AcceptMatch',
-  CommandName.SomeParametrized: 'SomeParametrized',
+  CommandName.HoverChampion: 'HoverChampion',
+  CommandName.CompleteAction: 'CompleteAction',
 };
