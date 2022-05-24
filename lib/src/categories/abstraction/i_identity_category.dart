@@ -13,13 +13,34 @@ import 'package:dart_library_generator/utilities.dart';
 import 'package:larc_api_dart/model.dart';
 
 abstract class IIdentityCategory {
+  /// Registers a new user in the system.
+  /// Sends email with 6-digits confirmation code and initializes confirmation process.
+  ///
+  /// [username] - Name of the user that will be registered;
+  /// [email] - Email of the user that will be registered;
+  /// [password] - User's password
+  Future<int> register(String username, String email, String password);
+
+  /// Confirms user, giving access token to the authorized device.
+  ///
+  /// [accountId] - ID of an account that should be confirmed;
+  /// [code] - 6-digits code to confirm account;
+  /// [deviceName] - Name of the device that will be authorized under the user;
+  /// [deviceType] - Type of the device that will be authorized under the user;
+  Future<String> confirm(int accountId, String code, String deviceName, DeviceType deviceType);
+
+  /// Resends confirmation email with a new 6-digits confirmation code.
+  ///
+  /// [accountId] - ID of an account that should be confirmed;;
+  Future resendConfirmation(int accountId);
+
   /// Authorizes device in the system,
   /// binds it to the user and returns token.
   ///
-  /// [login] - User's email or username
-  /// [password] - User's password
-  /// [deviceName] - Name of the device that will be authorized under the user
-  /// [deviceType] - Type of the device that will be authorized under the user
+  /// [login] - User's email or username;
+  /// [password] - User's password;
+  /// [deviceName] - Name of the device that will be authorized under the user;
+  /// [deviceType] - Type of the device that will be authorized under the user;
   Future<String> login(String login, String password, String deviceName, DeviceType deviceType);
 
   /// Gets full info of the user.

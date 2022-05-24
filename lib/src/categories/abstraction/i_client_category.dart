@@ -39,7 +39,7 @@ abstract class IClientCategory {
   @ControllerOnly()
   Future reportChampSelectStarted(int userPosition, int enemiesCount, List<Role> alliesRoles);
 
-  ///
+  /// Reports that action was requested from one of the matched players.
   ///
   /// [requestedAt] - When this action was requested by league client;
   /// [isAllyAction] - Is action is prescribed for an ally or an opponent;
@@ -48,7 +48,8 @@ abstract class IClientCategory {
   @ControllerOnly()
   Future reportActionRequested(DateTime requestedAt, bool isAllyAction, ValueRange actorsRange, ActionType type);
 
-  ///
+  /// Reports that action was changed, i.e. hovered champion was changed
+  /// or champion was picked or banned.
   ///
   /// [completed] - Is champion action completed or the champion is only hovered;
   /// [championId] - ID of the picked or banned champion;
@@ -56,18 +57,18 @@ abstract class IClientCategory {
   @ControllerOnly()
   Future reportActionChanged(bool completed, int championId, int actorPosition);
 
-  ///
+  /// Reports that champion skin was changed by the one of the allies.
   ///
   /// [playerPosition] - Position of player whose skin has been changed in allies array; [0;;4]
   /// [skinId] - New skin id;
   @ControllerOnly()
   Future reportSkinChanged(int playerPosition, int skinId);
 
-  ///
+  /// Reports that champ select phase was completed or cancelled.
   @ControllerOnly()
   Future reportChampSelectEnded();
 
-  /// Reports that pick stage in champ select phase is started.
+  /// Sends command to a client controller that is specified in the parameters to execute.
   ///
   /// [controllerId] - Determine which controller should execute this command;
   /// [commandName] - Command that should be sent to the client controller;

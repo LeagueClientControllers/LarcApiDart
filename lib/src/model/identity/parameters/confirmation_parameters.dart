@@ -13,23 +13,23 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:larc_api_dart/model.dart';
 import 'package:larc_api_dart/src/utils/base_json_serializable.dart';
 
-part 'login_parameters.g.dart';
+part 'confirmation_parameters.g.dart';
 
-/// Parameters of the /identity/login method.
+/// Parameters of the /identity/confirm method.
 @JsonSerializable()
-class LoginParameters implements BaseJsonSerializable<LoginParameters> {
-  LoginParameters(this.login, this.password, this.deviceName, this.deviceType);
+class ConfirmationParameters implements BaseJsonSerializable<ConfirmationParameters> {
+  ConfirmationParameters(this.accountId, this.code, this.deviceName, this.deviceType);
 
   @override
-  factory LoginParameters.fromJson(Map<String, dynamic> json) => _$LoginParametersFromJson(json);
+  factory ConfirmationParameters.fromJson(Map<String, dynamic> json) => _$ConfirmationParametersFromJson(json);
 
-  /// User's email or username.
-  @JsonKey(name: "login")
-  String login;
+  /// ID of an account that should be confirmed.
+  @JsonKey(name: "accountId")
+  int accountId;
 
-  /// User's password.
-  @JsonKey(name: "password")
-  String password;
+  /// 6-digits code to confirm account.
+  @JsonKey(name: "code")
+  String code;
 
   /// Name of the device that will be authorized under the user.
   @JsonKey(name: "deviceName")
@@ -40,5 +40,5 @@ class LoginParameters implements BaseJsonSerializable<LoginParameters> {
   DeviceType deviceType;
 
   @override
-  Map<String, dynamic> toJson() => _$LoginParametersToJson(this);
+  Map<String, dynamic> toJson() => _$ConfirmationParametersToJson(this);
 }

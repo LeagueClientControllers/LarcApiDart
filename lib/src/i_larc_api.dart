@@ -21,7 +21,7 @@ abstract class ILarcApi implements IAsyncDisposable {
   /// Contains methods that are used to retrieve or update information about user's devices.
   IDeviceCategory get device;
 
-  /// Contains methods that are used to get user information or related to the authentication.
+  /// Contains methods that are used to get user information or are related to the authentication.
   IIdentityCategory get identity;
 // #endregion
 
