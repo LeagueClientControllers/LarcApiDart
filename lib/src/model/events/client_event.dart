@@ -18,7 +18,7 @@ part 'client_event.g.dart';
 /// Describes an event related to the client.
 @JsonSerializable()
 class ClientEvent implements BaseJsonSerializable<ClientEvent> {
-  ClientEvent(this.type, this.controllerId, [this.changes]);
+  ClientEvent(this.type, this.controllerId, [this.gameflowPhase, this.readyCheckStarted]);
 
   @override
   factory ClientEvent.fromJson(Map<String, dynamic> json) => _$ClientEventFromJson(json);
@@ -31,9 +31,14 @@ class ClientEvent implements BaseJsonSerializable<ClientEvent> {
   @JsonKey(name: "controllerId")
   int controllerId;
 
-  /// Contains changes of the client values.
-  @JsonKey(name: "changes")
-  Map<String, Object>? changes;
+  /// If gameflow phase is changed, contains new gameflow phase value.
+  @JsonKey(name: "gameflowPhase")
+  GameflowPhase? gameflowPhase;
+
+  /// If gameflow phase is changed to {@see GameflowPhase.ReadyCheck},
+  /// contains timestamp when ready check was initiated.
+  @JsonKey(name: "readyCheckStarted", fromJson: unixTimestampToDateTimeNullable, toJson: dateTimeToUnixTimestampNullable)
+  DateTime? readyCheckStarted;
 
   @override
   Map<String, dynamic> toJson() => _$ClientEventToJson(this);
