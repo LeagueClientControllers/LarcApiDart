@@ -14,33 +14,22 @@ PickStage _$PickStageFromJson(Map<String, dynamic> json) => PickStage(
       (json['enemies'] as List<dynamic>)
           .map((e) => Summoner.fromJson(e as Map<String, dynamic>))
           .toList(),
-      (json['banRequested'] as List<dynamic>?)
-          ?.map((e) => DateTime.parse(e as String))
-          .toList(),
-      (json['pickRequested'] as List<dynamic>?)
-          ?.map((e) => DateTime.parse(e as String))
-          .toList(),
+      unixTimestampToDateTimeNullable(json['banRequested'] as int?),
+      unixTimestampToDateTimeNullable(json['pickRequested'] as int?),
       unixTimestampToDateTimeNullable(json['prepareStageStarted'] as int?),
-      (json['actionType'] as List<dynamic>?)
-          ?.map((e) => $enumDecode(_$ActionTypeEnumMap, e))
-          .toList(),
-      (json['isActorAnAlly'] as List<dynamic>?)?.map((e) => e as bool).toList(),
-      (json['firstActorPosition'] as List<dynamic>?)
-          ?.map((e) => e as int)
-          .toList(),
-      (json['actorsCount'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      $enumDecodeNullable(_$ActionTypeEnumMap, json['actionType']),
+      json['isActorAnAlly'] as bool?,
+      json['firstActorPosition'] as int?,
+      json['actorsCount'] as int?,
     );
 
 Map<String, dynamic> _$PickStageToJson(PickStage instance) => <String, dynamic>{
       'userPosition': instance.userPosition,
-      'banRequested':
-          instance.banRequested?.map((e) => e.toIso8601String()).toList(),
-      'pickRequested':
-          instance.pickRequested?.map((e) => e.toIso8601String()).toList(),
+      'banRequested': dateTimeToUnixTimestampNullable(instance.banRequested),
+      'pickRequested': dateTimeToUnixTimestampNullable(instance.pickRequested),
       'prepareStageStarted':
           dateTimeToUnixTimestampNullable(instance.prepareStageStarted),
-      'actionType':
-          instance.actionType?.map((e) => _$ActionTypeEnumMap[e]).toList(),
+      'actionType': _$ActionTypeEnumMap[instance.actionType],
       'isActorAnAlly': instance.isActorAnAlly,
       'firstActorPosition': instance.firstActorPosition,
       'actorsCount': instance.actorsCount,

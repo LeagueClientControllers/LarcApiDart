@@ -38,7 +38,7 @@ abstract class IDeviceCategory {
   ///
   /// [id] -
   @DeviceOnly()
-  Future getControllerById(int id);
+  Future<ClientController> getControllerById(int id);
 
   /// Changes the name of the controller.
   ///

@@ -36,12 +36,12 @@ class PickStage implements BaseJsonSerializable<PickStage> {
   int userPosition;
 
   /// Time when ban phase was started.
-  @JsonKey(name: "banRequested")
-  List<DateTime>? banRequested;
+  @JsonKey(name: "banRequested", fromJson: unixTimestampToDateTimeNullable, toJson: dateTimeToUnixTimestampNullable)
+  DateTime? banRequested;
 
   /// Time when pick phase was started.
-  @JsonKey(name: "pickRequested")
-  List<DateTime>? pickRequested;
+  @JsonKey(name: "pickRequested", fromJson: unixTimestampToDateTimeNullable, toJson: dateTimeToUnixTimestampNullable)
+  DateTime? pickRequested;
 
   /// Time when prepare phase was started.
   @JsonKey(name: "prepareStageStarted", fromJson: unixTimestampToDateTimeNullable, toJson: dateTimeToUnixTimestampNullable)
@@ -49,20 +49,20 @@ class PickStage implements BaseJsonSerializable<PickStage> {
 
   /// Type of the current action.
   @JsonKey(name: "actionType")
-  List<ActionType>? actionType;
+  ActionType? actionType;
 
   /// Is current action prescribed for the user's ally.
   @JsonKey(name: "isActorAnAlly")
-  List<bool>? isActorAnAlly;
+  bool? isActorAnAlly;
 
   /// Index of the allies or opponents array that points
   /// to the first summoner that participate in the current action.
   @JsonKey(name: "firstActorPosition")
-  List<int>? firstActorPosition;
+  int? firstActorPosition;
 
   /// Number of participants of the current action.
   @JsonKey(name: "actorsCount")
-  List<int>? actorsCount;
+  int? actorsCount;
 
   /// Members of the user's team.
   /// Index in the array points to player position in the pick order.

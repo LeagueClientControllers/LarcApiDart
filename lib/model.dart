@@ -33,7 +33,7 @@ export 'src/model/common/method_access_policy.dart';
 export 'src/model/common/method_error.dart';
 export 'src/model/common/parameters/change_name_parameters.dart';
 export 'src/model/common/parameters/get_by_id_parameters.dart';
-export 'src/model/common/range.dart';
+export 'src/model/common/value_range.dart';
 export 'src/model/device/client_controller.dart';
 export 'src/model/device/device.dart';
 export 'src/model/device/device_type.dart';
