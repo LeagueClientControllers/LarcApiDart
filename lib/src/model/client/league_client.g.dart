@@ -7,7 +7,7 @@ part of 'league_client.dart';
 // **************************************************************************
 
 LeagueClient _$LeagueClientFromJson(Map<String, dynamic> json) => LeagueClient(
-      $enumDecodeNullable(_$GameflowPhaseEnumMap, json['gameflowPhase']),
+      $enumDecode(_$GameflowPhaseEnumMap, json['gameflowPhase']),
       unixTimestampToDateTimeNullable(json['readyCheckStarted'] as int?),
       json['pick'] == null
           ? null

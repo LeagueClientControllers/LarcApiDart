@@ -21,8 +21,8 @@ enum Role {
   Jungle,
 
   ///
-  @_i1.JsonValue("Mid")
-  Mid,
+  @_i1.JsonValue("Middle")
+  Middle,
 
   ///
   @_i1.JsonValue("Bottom")

@@ -54,7 +54,7 @@ const _$PickEventTypeEnumMap = {
 const _$RoleEnumMap = {
   Role.Top: 'Top',
   Role.Jungle: 'Jungle',
-  Role.Mid: 'Mid',
+  Role.Middle: 'Middle',
   Role.Bottom: 'Bottom',
   Role.Support: 'Support',
   Role.Any: 'Any',

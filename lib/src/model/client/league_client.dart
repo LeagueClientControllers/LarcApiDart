@@ -19,14 +19,14 @@ part 'league_client.g.dart';
 /// that is controlled by a client controller.
 @JsonSerializable()
 class LeagueClient implements BaseJsonSerializable<LeagueClient> {
-  LeagueClient([this.gameflowPhase, this.readyCheckStarted, this.pick]);
+  LeagueClient(this.gameflowPhase, [this.readyCheckStarted, this.pick]);
 
   @override
   factory LeagueClient.fromJson(Map<String, dynamic> json) => _$LeagueClientFromJson(json);
 
   /// Gameflow phase of the client.
   @JsonKey(name: "gameflowPhase")
-  GameflowPhase? gameflowPhase;
+  GameflowPhase gameflowPhase;
 
   /// Time when ready check was initiated.
   @JsonKey(name: "readyCheckStarted", fromJson: unixTimestampToDateTimeNullable, toJson: dateTimeToUnixTimestampNullable)
