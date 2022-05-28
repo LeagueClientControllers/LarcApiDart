@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:larc_api_dart/core.dart';
 import 'package:larc_api_dart/model.dart';
 import 'package:larc_api_dart/src/security/i_user_credentials_storage.dart';
@@ -37,7 +39,19 @@ Future main() async {
   List<ClientController> controllers = await api.device.getControllers();
 
   api.events.deviceEvent.listen((event) {
-    print(event.changes?["name"]);
+    print("DeviceEvent: ${event.deviceId} -> ${event.type}  ${event.changes.toString()}");
+  });
+
+  api.events.clientEvent.listen((event) {
+    print("ClientEvent: ${event.controllerId} -> ${event.type} | ${event.changes.toString()}");
+  });
+
+  api.events.commandEvent.listen((event) {
+    print("CommandEvent: ${event.commandResult!.result} | ${event.commandResult!.error} | ${event.commandResult!.errorMessage}");
+  });
+
+  api.events.pickEvent.listen((event) {
+    print("PickEvent: ${jsonEncode(event.toJson())}");
   });
 
   await api.events.connectWithEventsProvider();

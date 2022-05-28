@@ -93,6 +93,21 @@ class LarcApi extends ILarcApi {
   }
 
   @override
+  Future<bool> authorizeDevice(String login, String password, String deviceName, DeviceType deviceType,
+      [bool saveCredentials = false]) async {
+    try {
+      String accessToken = await identity.login(login, password, deviceName, deviceType);
+      await updateAccessToken(accessToken);
+      return true;
+    } on ApiMethodException catch (e) {
+      if (e.error == MethodError.WrongNicknameEmailOrPassword) {
+        return false;
+      }
+      rethrow;
+    }
+  }
+
+  @override
   Future updateAccessToken(String accessToken, {bool store = false}) async {
     try {
       JWT jwt = JWT.verify(accessToken, SecretKey(ApiCredentials.jwtSecret), checkExpiresIn: true);

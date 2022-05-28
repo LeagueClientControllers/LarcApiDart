@@ -42,6 +42,11 @@ abstract class ILarcApi implements IAsyncDisposable {
   /// tries to refresh it and store new access token in the storage.
   Future init({IUserCredentialsStorage? credentialsStorage, String? accessToken});
 
+  /// Authorizes current device using login method.
+  /// Returns true if authorization was successful and false when provided wrong credentials.
+  Future<bool> authorizeDevice(String login, String password, String deviceName, DeviceType deviceType,
+      [bool saveCredentials = false]);
+
   /// Sets current access token that is used to execute methods
   /// that require authorization to the [accessToken], validating it.
   ///
