@@ -20,6 +20,7 @@ part 'pick_event.g.dart';
 class PickEvent implements BaseJsonSerializable<PickEvent> {
   PickEvent(this.type, this.controllerId,
       [this.userPickPosition,
+      this.bansPlanned,
       this.alliesRoles,
       this.enemiesCount,
       this.requestedAt,
@@ -47,6 +48,10 @@ class PickEvent implements BaseJsonSerializable<PickEvent> {
   /// Only if {@see type} is {@see PickEventType.ChampSelectStarted}, otherwise null.
   @JsonKey(name: "userPickPosition")
   int? userPickPosition;
+
+  ///
+  @JsonKey(name: "bansPlanned")
+  bool? bansPlanned;
 
   /// Contains array of user's allies in a pick queue order with roles of each.
   /// Only if {@see type} is {@see PickEventType.ChampSelectStarted}, otherwise null.

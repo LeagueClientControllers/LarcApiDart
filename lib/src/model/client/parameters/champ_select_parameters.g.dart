@@ -10,6 +10,7 @@ ChampSelectParameters _$ChampSelectParametersFromJson(
         Map<String, dynamic> json) =>
     ChampSelectParameters(
       json['userPosition'] as int,
+      json['bansPlanned'] as bool,
       json['enemiesCount'] as int,
       (json['alliesRoles'] as List<dynamic>)
           .map((e) => $enumDecode(_$RoleEnumMap, e))
@@ -20,6 +21,7 @@ Map<String, dynamic> _$ChampSelectParametersToJson(
         ChampSelectParameters instance) =>
     <String, dynamic>{
       'userPosition': instance.userPosition,
+      'bansPlanned': instance.bansPlanned,
       'enemiesCount': instance.enemiesCount,
       'alliesRoles': instance.alliesRoles.map((e) => _$RoleEnumMap[e]).toList(),
     };

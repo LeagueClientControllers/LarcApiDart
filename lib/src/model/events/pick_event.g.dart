@@ -10,6 +10,7 @@ PickEvent _$PickEventFromJson(Map<String, dynamic> json) => PickEvent(
       $enumDecode(_$PickEventTypeEnumMap, json['type']),
       json['controllerId'] as int,
       json['userPickPosition'] as int?,
+      json['bansPlanned'] as bool?,
       (json['alliesRoles'] as List<dynamic>?)
           ?.map((e) => $enumDecode(_$RoleEnumMap, e))
           .toList(),
@@ -30,6 +31,7 @@ Map<String, dynamic> _$PickEventToJson(PickEvent instance) => <String, dynamic>{
       'type': _$PickEventTypeEnumMap[instance.type],
       'controllerId': instance.controllerId,
       'userPickPosition': instance.userPickPosition,
+      'bansPlanned': instance.bansPlanned,
       'alliesRoles':
           instance.alliesRoles?.map((e) => _$RoleEnumMap[e]).toList(),
       'enemiesCount': instance.enemiesCount,

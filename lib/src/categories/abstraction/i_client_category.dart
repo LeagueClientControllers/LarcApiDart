@@ -34,10 +34,11 @@ abstract class IClientCategory {
   /// has been started in the «League of Legends» client.
   ///
   /// [userPosition] - Index of the user in allies array;
+  /// [bansPlanned] -
   /// [enemiesCount] - Count of matched enemies;
   /// [alliesRoles] - Array of matched allies' roles
   @ControllerOnly()
-  Future reportChampSelectStarted(int userPosition, int enemiesCount, List<Role> alliesRoles);
+  Future reportChampSelectStarted(int userPosition, bool bansPlanned, int enemiesCount, List<Role> alliesRoles);
 
   /// Reports that action was requested from one of the matched players.
   ///

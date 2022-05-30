@@ -18,7 +18,7 @@ part 'champ_select_parameters.g.dart';
 /// Parameters of the /client/reportChampSelectStarted method.
 @JsonSerializable()
 class ChampSelectParameters implements BaseJsonSerializable<ChampSelectParameters> {
-  ChampSelectParameters(this.userPosition, this.enemiesCount, this.alliesRoles);
+  ChampSelectParameters(this.userPosition, this.bansPlanned, this.enemiesCount, this.alliesRoles);
 
   @override
   factory ChampSelectParameters.fromJson(Map<String, dynamic> json) => _$ChampSelectParametersFromJson(json);
@@ -26,6 +26,10 @@ class ChampSelectParameters implements BaseJsonSerializable<ChampSelectParameter
   /// Index of the user in allies array.
   @JsonKey(name: "userPosition")
   int userPosition;
+
+  ///
+  @JsonKey(name: "bansPlanned")
+  bool bansPlanned;
 
   /// Count of matched enemies.
   @JsonKey(name: "enemiesCount")

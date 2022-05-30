@@ -19,7 +19,7 @@ part 'pick_stage.g.dart';
 /// with the data about teams, summoners, champions, bans etc.
 @JsonSerializable()
 class PickStage implements BaseJsonSerializable<PickStage> {
-  PickStage(this.userPosition, this.allies, this.enemies,
+  PickStage(this.userPosition, this.bansPlanned, this.allies, this.enemies,
       [this.banRequested,
       this.pickRequested,
       this.prepareStageStarted,
@@ -34,6 +34,10 @@ class PickStage implements BaseJsonSerializable<PickStage> {
   /// Index of the allies array that corresponds to the user.
   @JsonKey(name: "userPosition")
   int userPosition;
+
+  ///
+  @JsonKey(name: "bansPlanned")
+  bool bansPlanned;
 
   /// Time when ban phase was started.
   @JsonKey(name: "banRequested", fromJson: unixTimestampToDateTimeNullable, toJson: dateTimeToUnixTimestampNullable)
