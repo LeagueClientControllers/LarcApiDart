@@ -47,7 +47,7 @@ class EventService extends EventsHandler {
       handleMessage(eventMessage);
     }, onDone: () {
       _eventsProviderChannel = null;
-      throw new NetworkUnreachableException("ws");
+      _providerGoneController.add(null);
     });
   }
 

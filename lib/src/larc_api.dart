@@ -97,7 +97,7 @@ class LarcApi extends ILarcApi {
       [bool saveCredentials = false]) async {
     try {
       String accessToken = await identity.login(login, password, deviceName, deviceType);
-      await updateAccessToken(accessToken);
+      await updateAccessToken(accessToken, store: saveCredentials);
       return true;
     } on ApiMethodException catch (e) {
       if (e.error == MethodError.WrongNicknameEmailOrPassword) {

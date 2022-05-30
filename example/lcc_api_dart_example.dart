@@ -43,7 +43,7 @@ Future main() async {
   });
 
   api.events.clientEvent.listen((event) {
-    print("ClientEvent: ${event.controllerId} -> ${event.type} | ${event.changes.toString()}");
+    print("ClientEvent: ${event.controllerId} -> ${event.type} | ${event.gameflowPhase} | ${event.readyCheckStarted}");
   });
 
   api.events.commandEvent.listen((event) {
