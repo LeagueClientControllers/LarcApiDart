@@ -100,7 +100,7 @@ class LarcApi extends ILarcApi {
       await updateAccessToken(accessToken, store: saveCredentials);
       return true;
     } on ApiMethodException catch (e) {
-      if (e.error == MethodError.WrongNicknameEmailOrPassword) {
+      if (e.error == MethodError.WrongNicknameEmailOrPassword || e.error == MethodError.InvalidMethodParameter) {
         return false;
       }
       rethrow;
