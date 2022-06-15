@@ -9,6 +9,9 @@ part of 'pick_stage.dart';
 PickStage _$PickStageFromJson(Map<String, dynamic> json) => PickStage(
       json['userPosition'] as int,
       json['bansPlanned'] as bool,
+      (json['availableChampions'] as List<dynamic>)
+          .map((e) => e as int)
+          .toList(),
       (json['allies'] as List<dynamic>)
           .map((e) => Summoner.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -23,6 +26,7 @@ Map<String, dynamic> _$PickStageToJson(PickStage instance) => <String, dynamic>{
       'bansPlanned': instance.bansPlanned,
       'actionRequestedAt':
           dateTimeToUnixTimestampNullable(instance.actionRequestedAt),
+      'availableChampions': instance.availableChampions,
       'allies': instance.allies,
       'enemies': instance.enemies,
     };
