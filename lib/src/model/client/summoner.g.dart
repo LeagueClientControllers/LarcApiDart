@@ -13,6 +13,7 @@ Summoner _$SummonerFromJson(Map<String, dynamic> json) => Summoner(
       json['pickCompleted'] as bool,
       json['banCompleted'] as bool,
       json['skinId'] as int,
+      $enumDecodeNullable(_$ActionTypeEnumMap, json['actionInProgressType']),
     );
 
 Map<String, dynamic> _$SummonerToJson(Summoner instance) => <String, dynamic>{
@@ -22,6 +23,8 @@ Map<String, dynamic> _$SummonerToJson(Summoner instance) => <String, dynamic>{
       'pickCompleted': instance.pickCompleted,
       'banCompleted': instance.banCompleted,
       'skinId': instance.skinId,
+      'actionInProgressType':
+          _$ActionTypeEnumMap[instance.actionInProgressType],
     };
 
 const _$RoleEnumMap = {
@@ -31,4 +34,9 @@ const _$RoleEnumMap = {
   Role.Bottom: 'Bottom',
   Role.Support: 'Support',
   Role.Any: 'Any',
+};
+
+const _$ActionTypeEnumMap = {
+  ActionType.Pick: 'Pick',
+  ActionType.Ban: 'Ban',
 };

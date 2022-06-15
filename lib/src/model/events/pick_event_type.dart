@@ -17,12 +17,16 @@ enum PickEventType {
   SkinChanged,
 
   ///
-  @_i1.JsonValue("ActionChanged")
-  ActionChanged,
-
-  ///
   @_i1.JsonValue("ActionRequested")
   ActionRequested,
+
+  ///
+  @_i1.JsonValue("ActionCompleted")
+  ActionCompleted,
+
+  ///
+  @_i1.JsonValue("ChampionHovered")
+  ChampionHovered,
 
   ///
   @_i1.JsonValue("ChampSelectEnded")

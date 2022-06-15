@@ -49,21 +49,28 @@ abstract class IClientCategory {
   @ControllerOnly()
   Future reportActionRequested(DateTime requestedAt, bool isAllyAction, ValueRange actorsRange, ActionType type);
 
-  /// Reports that action was changed, i.e. hovered champion was changed
-  /// or champion was picked or banned.
+  /// Reports that action was changed, i.e. champion was banned or picked.
   ///
-  /// [completed] - Is champion action completed or the champion is only hovered;
-  /// [championId] - ID of the picked or banned champion;
   /// [actorPosition] - Position of the actor in ally or enemy team ([0;;4]);
+  /// [isActorAnAlly] - Whether actor is on ally or enemy team;
+  /// [championId] - ID of a picked or banned champion;
   @ControllerOnly()
-  Future reportActionChanged(bool completed, int championId, int actorPosition);
+  Future reportActionCompleted(int actorPosition, bool isActorAnAlly, int? championId);
+
+  /// Reports that champion was hovered.
+  ///
+  /// [actorPosition] - Position of the actor in ally or enemy team ([0;;4]);
+  /// [isActorAnAlly] - Whether actor is on ally or enemy team;
+  /// [championId] - ID of the hovered champion;
+  @ControllerOnly()
+  Future reportChampionHovered(int actorPosition, bool isActorAnAlly, int championId);
 
   /// Reports that champion skin was changed by the one of the allies.
   ///
-  /// [playerPosition] - Position of player whose skin has been changed in allies array; [0;;4]
+  /// [summonerPosition] - Position of player whose skin has been changed in allies array; [0;;4]
   /// [skinId] - New skin id;
   @ControllerOnly()
-  Future reportSkinChanged(int playerPosition, int skinId);
+  Future reportSkinChanged(int summonerPosition, int skinId);
 
   /// Reports that champ select phase was completed or cancelled.
   @ControllerOnly()

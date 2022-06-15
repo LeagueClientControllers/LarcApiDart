@@ -19,7 +19,8 @@ part 'summoner.g.dart';
 /// as an ally or opponent in the champ select phase
 @JsonSerializable()
 class Summoner implements BaseJsonSerializable<Summoner> {
-  Summoner(this.assignedRole, this.pickedChampionId, this.bannedChampionId, this.pickCompleted, this.banCompleted, this.skinId);
+  Summoner(this.assignedRole, this.pickedChampionId, this.bannedChampionId, this.pickCompleted, this.banCompleted, this.skinId,
+      [this.actionInProgressType]);
 
   @override
   factory Summoner.fromJson(Map<String, dynamic> json) => _$SummonerFromJson(json);
@@ -44,9 +45,13 @@ class Summoner implements BaseJsonSerializable<Summoner> {
   @JsonKey(name: "banCompleted")
   bool banCompleted;
 
-  ///
+  /// ID of the skin of a picked champion.
   @JsonKey(name: "skinId")
   int skinId;
+
+  /// Specifies type of action the summoner participates in.
+  @JsonKey(name: "actionInProgressType")
+  ActionType? actionInProgressType;
 
   @override
   Map<String, dynamic> toJson() => _$SummonerToJson(this);

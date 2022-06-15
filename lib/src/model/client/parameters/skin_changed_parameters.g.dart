@@ -9,13 +9,13 @@ part of 'skin_changed_parameters.dart';
 SkinChangedParameters _$SkinChangedParametersFromJson(
         Map<String, dynamic> json) =>
     SkinChangedParameters(
-      json['playerPosition'] as int,
+      json['summonerPosition'] as int,
       json['skinId'] as int,
     );
 
 Map<String, dynamic> _$SkinChangedParametersToJson(
         SkinChangedParameters instance) =>
     <String, dynamic>{
-      'playerPosition': instance.playerPosition,
+      'summonerPosition': instance.summonerPosition,
       'skinId': instance.skinId,
     };

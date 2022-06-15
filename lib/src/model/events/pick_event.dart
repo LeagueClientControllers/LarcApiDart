@@ -19,17 +19,13 @@ part 'pick_event.g.dart';
 @JsonSerializable()
 class PickEvent implements BaseJsonSerializable<PickEvent> {
   PickEvent(this.type, this.controllerId,
-      [this.userPickPosition,
-      this.bansPlanned,
-      this.alliesRoles,
-      this.enemiesCount,
+      [this.stage,
       this.requestedAt,
       this.actionType,
-      this.isActorAnAlly,
       this.actorsRange,
-      this.actorPosition,
+      this.summonerPosition,
+      this.isSummonerAnAlly,
       this.championId,
-      this.completed,
       this.skinId]);
 
   @override
@@ -44,24 +40,10 @@ class PickEvent implements BaseJsonSerializable<PickEvent> {
   @JsonKey(name: "controllerId")
   int controllerId;
 
-  /// Specifies where in the pick queue user is.
+  /// Contains initial pick stage info when it's started.
   /// Only if {@see type} is {@see PickEventType.ChampSelectStarted}, otherwise null.
-  @JsonKey(name: "userPickPosition")
-  int? userPickPosition;
-
-  ///
-  @JsonKey(name: "bansPlanned")
-  bool? bansPlanned;
-
-  /// Contains array of user's allies in a pick queue order with roles of each.
-  /// Only if {@see type} is {@see PickEventType.ChampSelectStarted}, otherwise null.
-  @JsonKey(name: "alliesRoles")
-  List<Role>? alliesRoles;
-
-  /// Contains number of matched enemies considering every one of them has {@see Role.Any} role.
-  /// Only if {@see type} is {@see PickEventType.ChampSelectStarted}, otherwise null.
-  @JsonKey(name: "enemiesCount")
-  int? enemiesCount;
+  @JsonKey(name: "stage")
+  PickStage? stage;
 
   /// When the action was requested.
   /// Only if {@see type} is {@see PickEventType.ActionRequested}, otherwise null.
@@ -73,31 +55,27 @@ class PickEvent implements BaseJsonSerializable<PickEvent> {
   @JsonKey(name: "actionType")
   ActionType? actionType;
 
-  /// Indicates whether action was requested from an ally.
-  /// Only if {@see type} is {@see PickEventType.ActionRequested}, otherwise null.
-  @JsonKey(name: "isActorAnAlly")
-  bool? isActorAnAlly;
-
   /// Specifies range of actors the action was requested from ([0..4]).
   /// Only if {@see type} is {@see PickEventType.ActionRequested}, otherwise null.
   @JsonKey(name: "actorsRange")
   ValueRange? actorsRange;
 
-  /// Position of the actor in ally or enemy team ([0..4]).
-  /// Only if {@see type} is {@see PickEventType.ActionChanged} or {@see PickEventType.SkinChanged},
+  /// Position of the summoner in ally or enemy team ([0..4]).
+  /// Only if {@see type} is champion related or {@see PickEventType.SkinChanged},
   /// otherwise null.
   @JsonKey(name: "actorPosition")
-  int? actorPosition;
+  int? summonerPosition;
 
-  /// ID of a champion that was banned or picked.
-  /// Only if {@see type} is {@see PickEventType.ActionChanged}, otherwise null.
+  /// Is summoner in ally or enemy team.
+  /// Only if {@see type} is champion related, otherwise null.
+  @JsonKey(name: "isSummonerAnAlly")
+  bool? isSummonerAnAlly;
+
+  /// ID of a champion that was banned, picked or hovered on.
+  /// Only if {@see type} is {@see PickEventType.ChampionHovered} or optional if {@see PickEventType.ActionCompleted},
+  /// otherwise null.
   @JsonKey(name: "championId")
   int? championId;
-
-  /// Indicates whether champion was actually ban or picked.
-  /// Only if {@see type} is {@see PickEventType.ActionChanged}, otherwise null.
-  @JsonKey(name: "completed")
-  bool? completed;
 
   /// ID of a skin that was applied to the picked champion.
   /// Only if {@see type} is {@see PickEventType.SkinChanged}, otherwise null.

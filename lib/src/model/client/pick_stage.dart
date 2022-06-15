@@ -19,14 +19,7 @@ part 'pick_stage.g.dart';
 /// with the data about teams, summoners, champions, bans etc.
 @JsonSerializable()
 class PickStage implements BaseJsonSerializable<PickStage> {
-  PickStage(this.userPosition, this.bansPlanned, this.allies, this.enemies,
-      [this.banRequested,
-      this.pickRequested,
-      this.prepareStageStarted,
-      this.actionType,
-      this.isActorAnAlly,
-      this.firstActorPosition,
-      this.actorsCount]);
+  PickStage(this.userPosition, this.bansPlanned, this.allies, this.enemies, [this.actionRequestedAt]);
 
   @override
   factory PickStage.fromJson(Map<String, dynamic> json) => _$PickStageFromJson(json);
@@ -39,34 +32,9 @@ class PickStage implements BaseJsonSerializable<PickStage> {
   @JsonKey(name: "bansPlanned")
   bool bansPlanned;
 
-  /// Time when ban phase was started.
-  @JsonKey(name: "banRequested", fromJson: unixTimestampToDateTimeNullable, toJson: dateTimeToUnixTimestampNullable)
-  DateTime? banRequested;
-
-  /// Time when pick phase was started.
-  @JsonKey(name: "pickRequested", fromJson: unixTimestampToDateTimeNullable, toJson: dateTimeToUnixTimestampNullable)
-  DateTime? pickRequested;
-
-  /// Time when prepare phase was started.
-  @JsonKey(name: "prepareStageStarted", fromJson: unixTimestampToDateTimeNullable, toJson: dateTimeToUnixTimestampNullable)
-  DateTime? prepareStageStarted;
-
-  /// Type of the current action.
-  @JsonKey(name: "actionType")
-  ActionType? actionType;
-
-  /// Is current action prescribed for the user's ally.
-  @JsonKey(name: "isActorAnAlly")
-  bool? isActorAnAlly;
-
-  /// Index of the allies or opponents array that points
-  /// to the first summoner that participate in the current action.
-  @JsonKey(name: "firstActorPosition")
-  int? firstActorPosition;
-
-  /// Number of participants of the current action.
-  @JsonKey(name: "actorsCount")
-  int? actorsCount;
+  /// Time when the last action was requested from summoner(s).
+  @JsonKey(name: "actionRequestedAt", fromJson: unixTimestampToDateTimeNullable, toJson: dateTimeToUnixTimestampNullable)
+  DateTime? actionRequestedAt;
 
   /// Members of the user's team.
   /// Index in the array points to player position in the pick order.

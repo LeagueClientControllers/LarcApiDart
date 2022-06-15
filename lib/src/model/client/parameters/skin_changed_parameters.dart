@@ -18,14 +18,14 @@ part 'skin_changed_parameters.g.dart';
 ///
 @JsonSerializable()
 class SkinChangedParameters implements BaseJsonSerializable<SkinChangedParameters> {
-  SkinChangedParameters(this.playerPosition, this.skinId);
+  SkinChangedParameters(this.summonerPosition, this.skinId);
 
   @override
   factory SkinChangedParameters.fromJson(Map<String, dynamic> json) => _$SkinChangedParametersFromJson(json);
 
   /// Position of player whose skin has been changed in allies array. [0..4]
-  @JsonKey(name: "playerPosition")
-  int playerPosition;
+  @JsonKey(name: "summonerPosition")
+  int summonerPosition;
 
   /// New skin id.
   @JsonKey(name: "skinId")
