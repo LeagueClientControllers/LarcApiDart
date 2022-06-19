@@ -21,6 +21,7 @@ class PickEvent implements BaseJsonSerializable<PickEvent> {
   PickEvent(this.type, this.controllerId,
       [this.stage,
       this.requestedAt,
+      this.timeToAct,
       this.actionType,
       this.actorsRange,
       this.summonerPosition,
@@ -49,6 +50,12 @@ class PickEvent implements BaseJsonSerializable<PickEvent> {
   /// Only if {@see type} is {@see PickEventType.ActionRequested}, otherwise null.
   @JsonKey(name: "requestedAt", fromJson: unixTimestampToDateTimeNullable, toJson: dateTimeToUnixTimestampNullable)
   DateTime? requestedAt;
+
+  /// How much time user have to complete the action in seconds
+  /// before he will be thrown out of queue.
+  /// Only if {@see type} is {@see PickEventType.ActionRequested}, otherwise null.
+  @JsonKey(name: "timeToAct")
+  int? timeToAct;
 
   /// Specifies if requested or changed action was pick or ban.
   /// Only if {@see type} is {@see PickEventType.ActionRequested}, otherwise null.

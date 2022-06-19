@@ -25,6 +25,7 @@ export 'src/model/client/parameters/set_command_result_parameters.dart';
 export 'src/model/client/parameters/set_gameflow_phase_parameters.dart';
 export 'src/model/client/parameters/skin_changed_parameters.dart';
 export 'src/model/client/pick_stage.dart';
+export 'src/model/client/queue_type.dart';
 export 'src/model/client/responses/command_response.dart';
 export 'src/model/client/role.dart';
 export 'src/model/client/summoner.dart';

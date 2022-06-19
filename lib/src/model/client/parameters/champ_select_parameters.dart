@@ -18,7 +18,7 @@ part 'champ_select_parameters.g.dart';
 /// Parameters of the /client/reportChampSelectStarted method.
 @JsonSerializable()
 class ChampSelectParameters implements BaseJsonSerializable<ChampSelectParameters> {
-  ChampSelectParameters(this.userPosition, this.bansPlanned, this.enemiesCount, this.alliesRoles, this.availableChampions);
+  ChampSelectParameters(this.userPosition, this.queueType, this.bansPlanned, this.enemiesCount, this.alliesRoles, this.availableChampions);
 
   @override
   factory ChampSelectParameters.fromJson(Map<String, dynamic> json) => _$ChampSelectParametersFromJson(json);
@@ -26,6 +26,10 @@ class ChampSelectParameters implements BaseJsonSerializable<ChampSelectParameter
   /// Index of the user in allies array.
   @JsonKey(name: "userPosition")
   int userPosition;
+
+  /// Type of the queue for which the pick stage was started.
+  @JsonKey(name: "queueType")
+  QueueType queueType;
 
   /// Whether bans are intended for chosen game mode.
   @JsonKey(name: "bansPlanned")

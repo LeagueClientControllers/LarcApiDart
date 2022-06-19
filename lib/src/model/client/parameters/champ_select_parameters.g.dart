@@ -10,6 +10,7 @@ ChampSelectParameters _$ChampSelectParametersFromJson(
         Map<String, dynamic> json) =>
     ChampSelectParameters(
       json['userPosition'] as int,
+      $enumDecode(_$QueueTypeEnumMap, json['queueType']),
       json['bansPlanned'] as bool,
       json['enemiesCount'] as int,
       (json['alliesRoles'] as List<dynamic>)
@@ -24,11 +25,20 @@ Map<String, dynamic> _$ChampSelectParametersToJson(
         ChampSelectParameters instance) =>
     <String, dynamic>{
       'userPosition': instance.userPosition,
+      'queueType': _$QueueTypeEnumMap[instance.queueType],
       'bansPlanned': instance.bansPlanned,
       'enemiesCount': instance.enemiesCount,
       'alliesRoles': instance.alliesRoles.map((e) => _$RoleEnumMap[e]).toList(),
       'availableChampions': instance.availableChampions,
     };
+
+const _$QueueTypeEnumMap = {
+  QueueType.Custom: 'Custom',
+  QueueType.DraftPick: 'DraftPick',
+  QueueType.RankedSolo: 'RankedSolo',
+  QueueType.BlindPick: 'BlindPick',
+  QueueType.RankedFlex: 'RankedFlex',
+};
 
 const _$RoleEnumMap = {
   Role.Top: 'Top',

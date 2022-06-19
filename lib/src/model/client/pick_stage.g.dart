@@ -7,6 +7,7 @@ part of 'pick_stage.dart';
 // **************************************************************************
 
 PickStage _$PickStageFromJson(Map<String, dynamic> json) => PickStage(
+      $enumDecode(_$QueueTypeEnumMap, json['queueType']),
       json['userPosition'] as int,
       json['bansPlanned'] as bool,
       (json['availableChampions'] as List<dynamic>)
@@ -19,14 +20,25 @@ PickStage _$PickStageFromJson(Map<String, dynamic> json) => PickStage(
           .map((e) => Summoner.fromJson(e as Map<String, dynamic>))
           .toList(),
       unixTimestampToDateTimeNullable(json['actionRequestedAt'] as int?),
+      json['timeToAct'] as int?,
     );
 
 Map<String, dynamic> _$PickStageToJson(PickStage instance) => <String, dynamic>{
+      'queueType': _$QueueTypeEnumMap[instance.queueType],
       'userPosition': instance.userPosition,
       'bansPlanned': instance.bansPlanned,
       'actionRequestedAt':
           dateTimeToUnixTimestampNullable(instance.actionRequestedAt),
+      'timeToAct': instance.timeToAct,
       'availableChampions': instance.availableChampions,
       'allies': instance.allies,
       'enemies': instance.enemies,
     };
+
+const _$QueueTypeEnumMap = {
+  QueueType.Custom: 'Custom',
+  QueueType.DraftPick: 'DraftPick',
+  QueueType.RankedSolo: 'RankedSolo',
+  QueueType.BlindPick: 'BlindPick',
+  QueueType.RankedFlex: 'RankedFlex',
+};

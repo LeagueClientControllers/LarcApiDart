@@ -13,6 +13,7 @@ PickEvent _$PickEventFromJson(Map<String, dynamic> json) => PickEvent(
           ? null
           : PickStage.fromJson(json['stage'] as Map<String, dynamic>),
       unixTimestampToDateTimeNullable(json['requestedAt'] as int?),
+      json['timeToAct'] as int?,
       $enumDecodeNullable(_$ActionTypeEnumMap, json['actionType']),
       json['actorsRange'] == null
           ? null
@@ -28,6 +29,7 @@ Map<String, dynamic> _$PickEventToJson(PickEvent instance) => <String, dynamic>{
       'controllerId': instance.controllerId,
       'stage': instance.stage,
       'requestedAt': dateTimeToUnixTimestampNullable(instance.requestedAt),
+      'timeToAct': instance.timeToAct,
       'actionType': _$ActionTypeEnumMap[instance.actionType],
       'actorsRange': instance.actorsRange,
       'actorPosition': instance.summonerPosition,

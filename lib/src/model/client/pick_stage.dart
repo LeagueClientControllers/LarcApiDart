@@ -19,10 +19,15 @@ part 'pick_stage.g.dart';
 /// with the data about teams, summoners, champions, bans etc.
 @JsonSerializable()
 class PickStage implements BaseJsonSerializable<PickStage> {
-  PickStage(this.userPosition, this.bansPlanned, this.availableChampions, this.allies, this.enemies, [this.actionRequestedAt]);
+  PickStage(this.queueType, this.userPosition, this.bansPlanned, this.availableChampions, this.allies, this.enemies,
+      [this.actionRequestedAt, this.timeToAct]);
 
   @override
   factory PickStage.fromJson(Map<String, dynamic> json) => _$PickStageFromJson(json);
+
+  /// Type of the queue the pick stage was started for.
+  @JsonKey(name: "queueType")
+  QueueType queueType;
 
   /// Index of the allies array that corresponds to the user.
   @JsonKey(name: "userPosition")
@@ -35,6 +40,11 @@ class PickStage implements BaseJsonSerializable<PickStage> {
   /// Time when the last action was requested from summoner(s).
   @JsonKey(name: "actionRequestedAt", fromJson: unixTimestampToDateTimeNullable, toJson: dateTimeToUnixTimestampNullable)
   DateTime? actionRequestedAt;
+
+  /// How much time user have to complete the action in seconds
+  /// before he will be thrown out of queue.
+  @JsonKey(name: "timeToAct")
+  int? timeToAct;
 
   /// Champions that are owned by the user and are allowed to be picked by him.
   @JsonKey(name: "availableChampions")
