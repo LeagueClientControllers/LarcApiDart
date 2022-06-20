@@ -68,6 +68,10 @@ class LarcApi extends ILarcApi {
   @override
   Future init({IUserCredentialsStorage? credentialsStorage, String? accessToken}) async {
     _credentialsStorage = credentialsStorage;
+    if (accessToken != null) {
+      _accessToken = accessToken;
+      return;
+    }
 
     String? oldToken;
     if (_credentialsStorage != null) {
