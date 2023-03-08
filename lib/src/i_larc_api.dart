@@ -9,7 +9,7 @@ import 'package:larc_api_dart/src/utils/i_disposable.dart';
 /// Abstraction of the head API class.
 abstract class ILarcApi implements IAsyncDisposable {
   /// API host.
-  static const String apiHost = bool.fromEnvironment("dart.vm.product") ? "www.larc.ml/api" : "www.larc.ml/dev";
+  static const String apiHost = bool.fromEnvironment("dart.vm.product") ? "www.larc.tech/api" : "www.larc.tech/dev";
 
   /// Base url for API requests.
   static const String baseApiUri = "http://$apiHost";
